@@ -1,0 +1,80 @@
+openapi: 3.0.0
+info:
+  title: Entertainment-web
+  description: API
+  version: 0.1.9
+
+servers:
+  - url: https://entertainment-web-app-back-production.up.railway.app/
+  # description: production server
+  - url: http://localhost:3000/
+    description: local server
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+paths:
+  /newItem:
+    post:
+      tags:
+        - Todo
+      requestBody:
+        description: add the new todo item
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                photo:
+                  type: string
+                bookmarks:
+                  type: string
+      responses:
+        "201":
+          description: new item is added
+  /items:
+    get:
+      tags:
+        - Todo
+      responses:
+        "200":
+          description: get all items data
+  /items/{id}:
+    put:
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      tags:
+        - Todo
+      responses:
+        "200":
+          description: update item content
+    delete:
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      tags:
+        - Todo
+      responses:
+        "200":
+          description: item deleted successfully
+  /items/completed:
+    delete:
+      tags:
+        - Todo
+      responses:
+        "200":
+          description: completed items deleted successfully
