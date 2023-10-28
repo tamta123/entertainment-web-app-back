@@ -1,8 +1,8 @@
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
-import usersRouter from "./config/routes/users-routes.js";
-import swaggerMiddleware from "./config/middlewares/swagger-middleware.js";
+import usersRouter from "./routes/users-routes.js";
+import swaggerMiddleware from "./middlewares/swagger-middleware.js";
 
 const app = express();
 

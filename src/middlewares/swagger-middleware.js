@@ -6,5 +6,5 @@ const options = {
   customSiteTitle: "Users API",
 };
 
-const swaggerDocument = YAML.load("./src/config/database/swagger.yaml");
+const swaggerDocument = YAML.load("./src/database/swagger.yaml");
 export default [SwaggerUI.serve, SwaggerUI.setup(swaggerDocument, options)];

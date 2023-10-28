@@ -38,13 +38,13 @@ paths:
                   type: string
       responses:
         "201":
-          description: new item user
+          description: new user
   /users:
     get:
       tags:
         - user
       responses:
-        "200":
+        "201":
           description: get all users
   # /items/{id}:
   #   put:
