@@ -1,4 +1,5 @@
 import pool from "../database/database.js";
+import bcrypt from "bcrypt";
 
 export const getAllUsers = async (req, res) => {
   try {
@@ -13,6 +14,8 @@ export const getAllUsers = async (req, res) => {
 export const addUSer = async (req, res) => {
   const { email, password, photo, bookmarks } = req.body;
   try {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
     if (!email || !password) {
       return res
         .status(400)
@@ -21,7 +24,7 @@ export const addUSer = async (req, res) => {
     const query = `INSERT INTO users (email, password, photo, bookmarks)
     VALUES($1, $2, $3, $4)
     RETURNING *;`;
-    const values = [email, password, photo, bookmarks];
+    const values = [email, hashedPassword, photo, bookmarks];
     const result = await pool.query(query, values);
     return res.status(201).json(result.rows[0]);
   } catch (error) {
