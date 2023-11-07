@@ -7,7 +7,7 @@ info:
 servers:
   - url: https://entertainment-web-app-back-production.up.railway.app/api/
   # description: production server
-  - url: http://localhost:3000/
+  - url: http://localhost:3000/api/
     description: local server
 components:
   securitySchemes:
@@ -46,35 +46,22 @@ paths:
       responses:
         "201":
           description: get all users
-  # /items/{id}:
-  #   put:
-  #     parameters:
-  #       - in: path
-  #         name: id
-  #         schema:
-  #           type: string
-  #         required: true
-  #     tags:
-  #       - Todo
-  #     responses:
-  #       "200":
-  #         description: update item content
-  #   delete:
-  #     parameters:
-  #       - in: path
-  #         name: id
-  #         schema:
-  #           type: string
-  #         required: true
-  #     tags:
-  #       - Todo
-  #     responses:
-  #       "200":
-  #         description: item deleted successfully
-  # /items/completed:
-  #   delete:
-  #     tags:
-  #       - Todo
-  #     responses:
-  #       "200":
-  #         description: completed items deleted successfully
+  /login:
+    post:
+      tags:
+        - Auth
+      requestBody:
+        description: user login request
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "201":
+          description: user login successfully

@@ -17,8 +17,8 @@ function serverStart() {
   app.use(bodyParser.json());
   app.use(cors());
   app.use("/api", usersRouter);
-  app.listen(process.env.PORT || 3000);
   app.use("/", ...swaggerMiddleware);
+  app.listen(process.env.PORT || 3000);
 }
 
 init();
