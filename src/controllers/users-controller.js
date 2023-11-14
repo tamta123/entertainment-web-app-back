@@ -39,7 +39,6 @@ export const addUSer = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  console.log("tamta");
   try {
     const { email, password } = req.body;
 
