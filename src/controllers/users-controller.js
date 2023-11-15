@@ -13,6 +13,16 @@ export const getAllUsers = async (_, res) => {
   }
 };
 
+export const emptyTable = async (_, res) => {
+  try {
+    const query = "DELETE FROM users";
+    await pool.query(query);
+    return res.status(200).json({ message: "users table has been emptied" });
+  } catch (error) {
+    return res.status(500).json({ message: error });
+  }
+};
+
 export const addUSer = async (req, res) => {
   try {
     const { email, password, photo, bookmarks } = req.body;

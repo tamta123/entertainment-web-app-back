@@ -16,10 +16,10 @@ components:
       scheme: bearer
       bearerFormat: JWT
 paths:
-  /newUser:
+  /register:
     post:
       tags:
-        - user
+        - Auth
       requestBody:
         description: add the new user
         required: true
@@ -42,7 +42,7 @@ paths:
   /users:
     get:
       tags:
-        - user
+        - Auth
       responses:
         "201":
           description: get all users
@@ -65,3 +65,10 @@ paths:
       responses:
         "201":
           description: user login successfully
+  /users/empty:
+    delete:
+      tags:
+        - Auth
+      responses:
+        "200":
+          description: users table has been emptied
