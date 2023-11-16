@@ -1,7 +1,10 @@
 import pool from "../database/database.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { sendVerificationLink } from "../mail/edge.js";
 import { validateUser } from "../validator.js";
+import pkg from "joi";
+const { link } = pkg;
 
 export const getAllUsers = async (_, res) => {
   try {
@@ -42,6 +45,11 @@ export const addUSer = async (req, res) => {
     RETURNING *;`;
     const values = [email, hashedPassword, photo, bookmarks];
     const result = await pool.query(query, values);
+    await sendVerificationLink(
+      email,
+      "https://entertainment-web-app-back-production.up.railway.app/verify" //ასეთი როუთი გვექნება ფრონტში რეაქტზე (ვერცელის)
+    );
+
     return res.status(201).json(result.rows[0]);
   } catch (error) {
     return res.status(401).json(error);

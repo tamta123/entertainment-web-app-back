@@ -22,3 +22,10 @@ function serverStart() {
 }
 
 init();
+
+// axios.get("facebook/user", {
+//   headers: {
+//     authrization: `barrer ${token}`,
+//   },
+// }); ამას ვწერთ ფრონტში
+// req-ს ასევე მოყვება ჰედერი, რომლისგანაც ეგვიძლია ამოვიღოთ ავტორიზაცია, რაც ფრონტიდან იქნება გამოგზავნილი

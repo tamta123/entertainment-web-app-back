@@ -19,7 +19,7 @@ paths:
   /register:
     post:
       tags:
-        - Auth
+        - user
       requestBody:
         description: add the new user
         required: true
@@ -42,14 +42,14 @@ paths:
   /users:
     get:
       tags:
-        - Auth
+        - user
       responses:
         "201":
           description: get all users
   /login:
     post:
       tags:
-        - Auth
+        - user
       requestBody:
         description: user login request
         required: true
@@ -68,7 +68,7 @@ paths:
   /users/empty:
     delete:
       tags:
-        - Auth
+        - user
       responses:
         "200":
           description: users table has been emptied
