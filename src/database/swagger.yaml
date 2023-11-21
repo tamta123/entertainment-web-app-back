@@ -66,9 +66,9 @@ paths:
     #       "201":
     #         description: user login successfully
     # /users/empty:
-    delete:
-      tags:
-        - user
-      responses:
-        "200":
-          description: users table has been emptied
+    # delete:
+    # tags:
+    #   - user
+    # responses:
+    # "200":
+    # description: users table has been emptied
