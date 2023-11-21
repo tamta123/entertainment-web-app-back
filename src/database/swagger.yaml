@@ -28,13 +28,13 @@ paths:
             schema:
               type: "object"
               properties:
+                firstName:
+                  type: string
                 email:
                   type: string
                 password:
                   type: string
                 photo:
-                  type: string
-                bookmarks:
                   type: string
       responses:
         "201":
