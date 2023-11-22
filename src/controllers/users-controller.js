@@ -2,7 +2,7 @@ import pool from "../database/database.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { sendVerificationLink } from "../mail/edge.js";
-import { validateUser } from "../validator.js";
+// import { validateUser } from "../validator.js";
 import pkg from "joi";
 import User from "../models/user.js";
 const { link } = pkg;
@@ -30,17 +30,17 @@ const { link } = pkg;
 export const addUSer = async (req, res) => {
   try {
     const { firstName, email, password, photo } = req.body;
-    const { error } = validateUser(req.body);
+    // const { error } = validateUser(req.body);
 
-    console.log("Validation Error:", error);
+    // console.log("Validation Error:", error);
 
-    if (error) {
-      return res
-        .status(400)
-        .json({ message: "Validation error", details: error.details });
-    }
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt); // bcrypt ნიშნავს შემიქმენი ჰაში ამ პაროლისთვის სალთის მიხედვით
+    // if (error) {
+    //   return res
+    //     .status(400)
+    //     .json({ message: "Validation error", details: error.details });
+    // }
+    // const salt = await bcrypt.genSalt(10);
+    // const hashedPassword = await bcrypt.hash(password, salt); // bcrypt ნიშნავს შემიქმენი ჰაში ამ პაროლისთვის სალთის მიხედვით
     // const query = `INSERT INTO users (email, password, photo, bookmarks)
     // VALUES($1, $2, $3, $4)
     // RETURNING *;`;
@@ -50,7 +50,7 @@ export const addUSer = async (req, res) => {
     const newUser = await User.create({
       firstName: firstName,
       email: email,
-      password: hashedPassword,
+      hashedPassword: password,
       photo: photo,
     });
 
@@ -58,8 +58,7 @@ export const addUSer = async (req, res) => {
     //   email,
     //   "https://entertainment-web-app-back-production.up.railway.app/verify" //ასეთი როუთი გვექნება ფრონტში რეაქტზე (ვერცელის)
     // );
-    console.log(Jane.toJSON());
-
+    console.log(newUser.toJSON());
     return res.status(201).json(newUser.toJSON());
   } catch (error) {
     console.log(error);
