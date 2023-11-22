@@ -9,7 +9,7 @@ const User = sequelize.define("User", {
     unique: true,
     isEmail: true,
   },
-  hashedPassword: {
+  password: {
     type: DataTypes.STRING(64),
     allowNull: false,
     // validate: {

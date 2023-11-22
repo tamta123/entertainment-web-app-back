@@ -50,7 +50,7 @@ export const addUSer = async (req, res) => {
     const newUser = await User.create({
       firstName: firstName,
       email: email,
-      hashedPassword: password,
+      password: password,
       photo: photo,
     });
 
