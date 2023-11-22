@@ -2,7 +2,7 @@ import pool from "../database/database.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { sendVerificationLink } from "../mail/edge.js";
-// import { validateUser } from "../validator.js";
+import { validateUser } from "../validator.js";
 import pkg from "joi";
 import User from "../models/user.js";
 const { link } = pkg;
@@ -30,27 +30,23 @@ const { link } = pkg;
 export const addUSer = async (req, res) => {
   try {
     const { firstName, email, password, photo } = req.body;
-    // const { error } = validateUser(req.body);
 
-    // console.log("Validation Error:", error);
+    // Validate user input using the validateUser function
+    try {
+      await validateUser({ firstName, email, password, photo });
+    } catch (error) {
+      return res
+        .status(400)
+        .json({ message: "Validation error", details: error.details });
+    }
 
-    // if (error) {
-    //   return res
-    //     .status(400)
-    //     .json({ message: "Validation error", details: error.details });
-    // }
-    // const salt = await bcrypt.genSalt(10);
-    // const hashedPassword = await bcrypt.hash(password, salt); // bcrypt ნიშნავს შემიქმენი ჰაში ამ პაროლისთვის სალთის მიხედვით
-    // const query = `INSERT INTO users (email, password, photo, bookmarks)
-    // VALUES($1, $2, $3, $4)
-    // RETURNING *;`;
-    // const values = [email, hashedPassword, photo, bookmarks];
-    // const result = await pool.query(query, values);
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt); // bcrypt ნიშნავს შემიქმენი ჰაში ამ პაროლისთვის სალთის მიხედვით
 
     const newUser = await User.create({
       firstName: firstName,
       email: email,
-      password: password,
+      password: hashedPassword,
       photo: photo,
     });
 
