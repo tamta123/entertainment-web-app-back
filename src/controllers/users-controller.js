@@ -2,20 +2,16 @@ import pool from "../database/database.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { sendVerificationLink } from "../mail/edge.js";
-import { validateUser } from "../validator.js";
-import pkg from "joi";
 import User from "../models/user.js";
-const { link } = pkg;
 
-// export const getAllUsers = async (_, res) => {
-//   try {
-//     // const result = await pool.query("SELECT * FROM users");
-
-//     return res.status(200).json(result.rows);
-//   } catch (error) {
-//     return res.status(500).json({ message: error });
-//   }
-// };
+export const getAllUsers = async (_, res) => {
+  try {
+    const data = await User.findAll();
+    return res.status(200).json(data);
+  } catch (error) {
+    return res.status(500).json({ message: error });
+  }
+};
 
 // export const emptyTable = async (_, res) => {
 //   try {
@@ -30,15 +26,6 @@ const { link } = pkg;
 export const addUSer = async (req, res) => {
   try {
     const { firstName, email, password, photo } = req.body;
-
-    // Validate user input using the validateUser function
-    try {
-      await validateUser({ firstName, email, password, photo });
-    } catch (error) {
-      return res
-        .status(400)
-        .json({ message: "Validation error", details: error.details });
-    }
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt); // bcrypt ნიშნავს შემიქმენი ჰაში ამ პაროლისთვის სალთის მიხედვით

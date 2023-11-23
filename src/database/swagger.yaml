@@ -19,7 +19,7 @@ paths:
   /register:
     post:
       tags:
-        - user
+        - User
       requestBody:
         description: add the new user
         required: true
@@ -39,17 +39,17 @@ paths:
       responses:
         "201":
           description: new user
-    # /users:
-    #   get:
-    #     tags:
-    #       - user
-    #     responses:
-    #       "201":
-    #         description: get all users
+  /users:
+    get:
+      tags:
+        - User
+      responses:
+        "200":
+          description: get all users
     # /login:
     #   post:
     #     tags:
-    #       - user
+    #       - User
     #     requestBody:
     #       description: user login request
     #       required: true
@@ -68,7 +68,41 @@ paths:
     # /users/empty:
     # delete:
     # tags:
-    #   - user
+    #   - User
     # responses:
     # "200":
     # description: users table has been emptied
+  /addMovie:
+    post:
+      tags:
+        - Movie
+      requestBody:
+        description: add the new movie
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                title:
+                  type: string
+                posterSmall:
+                  type: string
+                posterMedium:
+                  type: string
+                posterLarge:
+                  type: string
+                rating:
+                  type: string
+                year:
+                  type: integer
+      responses:
+        "201":
+          description: new movie
+  /movies:
+    get:
+      tags:
+        - Movie
+      responses:
+        "200":
+          description: get all movies

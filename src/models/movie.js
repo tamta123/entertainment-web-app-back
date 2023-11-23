@@ -16,12 +16,12 @@ console.log(Movie === sequelize.models.Movie);
 Movie.belongsToMany(MovieCategory, { through: "Movie&Category" });
 MovieCategory.belongsToMany(Movie, { through: "Movie&Category" });
 
-try {
-  await sequelize.sync({ alter: true });
-  console.log("The table for the Movies model was just (re)created!");
-} catch (error) {
-  console.error("Unable to sync:", error);
-}
+// try {
+//   await sequelize.sync({ force: true });
+//   console.log("The table for the Movies model was just (re)created!");
+// } catch (error) {
+//   console.error("Unable to sync:", error);
+// }
 
 // try {
 //   await sequelize.drop();
@@ -29,3 +29,5 @@ try {
 // } catch (error) {
 //   console.error("Unable to delete:", error);
 // }
+
+export default Movie;
