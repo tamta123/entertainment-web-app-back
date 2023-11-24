@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../database/database.js";
-import MovieCategory from "./movieCategory.js";
+import User from "./user.js";
 
 const Movie = sequelize.define("Movie", {
   title: { type: DataTypes.STRING, allowNull: false },
@@ -13,15 +13,15 @@ const Movie = sequelize.define("Movie", {
 
 console.log(Movie === sequelize.models.Movie);
 
-Movie.belongsToMany(MovieCategory, { through: "Movie&Category" });
-MovieCategory.belongsToMany(Movie, { through: "Movie&Category" });
+Movie.belongsToMany(User, { through: "Bookmarks" });
+User.belongsToMany(Movie, { through: "Bookmarks" });
 
-// try {
-//   await sequelize.sync({ force: true });
-//   console.log("The table for the Movies model was just (re)created!");
-// } catch (error) {
-//   console.error("Unable to sync:", error);
-// }
+try {
+  await sequelize.sync({ force: true });
+  console.log("The table for the Movies model was just (re)created!");
+} catch (error) {
+  console.error("Unable to sync:", error);
+}
 
 // try {
 //   await sequelize.drop();

@@ -3,7 +3,7 @@ import { addMovie, getAllMovies } from "../controllers/movies-controller.js";
 
 const moviesRouter = express.Router();
 moviesRouter.get("/allMovies", getAllMovies);
-moviesRouter.post("/movie", addMovie);
+moviesRouter.post("/addMovie", addMovie);
 // usersRouter.post("/login", login);
 // usersRouter.delete("/users/empty", emptyTable);
 

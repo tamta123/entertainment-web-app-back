@@ -1,4 +1,3 @@
-import pool from "../database/database.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { sendVerificationLink } from "../mail/edge.js";
@@ -49,44 +48,42 @@ export const addUSer = async (req, res) => {
   }
 };
 
-// export const login = async (req, res) => {
-//   try {
-//     const { email, password } = req.body;
+export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-//     const query = `
-//       SELECT * FROM users
-//       WHERE email = $1;
-//     `;
+    // Find the user by email using Sequelize
+    const user = await User.findOne({ where: { email: email } });
 
-//     const result = await pool.query(query, [email]);
+    if (user) {
+      const hashedPassword = user.password;
 
-//     if (result.rows.length === 1) {
-//       const user = result.rows[0];
-//       const hashedPassword = user.password;
+      // Compare passwords using bcrypt
+      const passwordsMatch = await bcrypt.compare(password, hashedPassword);
 
-//       const passwordsMatch = await bcrypt.compare(password, hashedPassword);
-
-//       if (passwordsMatch) {
-//         try {
-//           const sightData = {
-//             email: user.email,
-//             id: user.id,
-//           };
-//           const token = jwt.sign(sightData, process.env.JWT_SECRET);
-//           return res.status(200).json({ ...sightData, token });
-//         } catch (error) {
-//           return res.status(401).json(error);
-//         }
-//       } else {
-//         return res.status(401).json("Password is incorrect");
-//       }
-//     } else {
-//       return res.status(401).json("User with this email does not exist");
-//     }
-//   } catch (error) {
-//     return res.status(500).json({ message: error });
-//   }
-// };
+      if (passwordsMatch) {
+        try {
+          // Generate JWT token
+          const sightData = {
+            email: user.email,
+            id: user.id,
+          };
+          const token = jwt.sign(sightData, process.env.JWT_SECRET);
+          return res.status(200).json({ ...sightData, token });
+        } catch (error) {
+          return res.status(401).json(error);
+        }
+      } else {
+        return res.status(401).json("Password is incorrect");
+      }
+    } else {
+      return res.status(401).json("User with this email does not exist");
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
 //შევქმნი მოდელის ფოლდერს, იუზერები და რელაცია მაგატ შორის
 
