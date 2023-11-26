@@ -46,25 +46,25 @@ paths:
       responses:
         "200":
           description: get all users
-    /login:
-      post:
-        tags:
-          - User
-        requestBody:
-          description: user login request
-          required: true
-          content:
-            application/json:
-              schema:
-                type: "object"
-                properties:
-                  email:
-                    type: string
-                  password:
-                    type: string
-        responses:
-          "201":
-            description: user login successfully
+  /login:
+    post:
+      tags:
+        - User
+      requestBody:
+        description: user login request
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "201":
+          description: user login successfully
     # /users/empty:
     # delete:
     # tags:
@@ -109,7 +109,7 @@ paths:
   /addCategory:
     post:
       tags:
-        - MovieCategory
+        - Category
       requestBody:
         description: add the new category
         required: true
@@ -118,19 +118,15 @@ paths:
             schema:
               type: "object"
               properties:
-                trending:
-                  type: boolean
-                recommended:
-                  type: boolean
-                tvSeries:
-                  type: boolean
+                name:
+                  type: string
       responses:
         "201":
           description: new movie
   /allCategories:
     get:
       tags:
-        - MovieCategory
+        - Category
       responses:
         "200":
           description: get all categories

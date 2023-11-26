@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 import sequelize from "../database/database.js";
 
 const Category = sequelize.define("Category", {
-  name: { type: DataTypes.STRING },
+  name: { type: DataTypes.STRING, allowNull: false },
 });
 
 console.log(Category === sequelize.models.Category);
@@ -13,5 +13,12 @@ try {
 } catch (error) {
   console.error("Unable to sync:", error);
 }
+
+// try {
+//   await sequelize.drop();
+//   console.log("table dropped successfully");
+// } catch (error) {
+//   console.error("Unable to delete:", error);
+// }
 
 export default Category;

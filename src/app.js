@@ -19,6 +19,7 @@ function serverStart() {
   app.use(bodyParser.json());
   app.use(cors());
   app.use("/api", usersRouter, moviesRouter, categoriesRouter);
+  app.use("/thumbnails", express.static("public/thumbnails"));
   app.use("/", ...swaggerMiddleware);
   app.listen(process.env.PORT || 3000);
 }

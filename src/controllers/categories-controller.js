@@ -12,11 +12,9 @@ console.log("print print");
 
 export const addCategory = async (req, res) => {
   try {
-    const { trending, recommended, tvSeries } = req.body;
+    const { name } = req.body;
     const addCategory = await Category.create({
-      trending: trending,
-      recommended: recommended,
-      tvSeries: tvSeries,
+      name: name,
     });
     console.log(addCategory.toJSON());
     return res.status(201).json(addCategory.toJSON());

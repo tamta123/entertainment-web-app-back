@@ -36,10 +36,10 @@ export const addUSer = async (req, res) => {
       photo: photo,
     });
 
-    // await sendVerificationLink(
-    //   email,
-    //   "https://entertainment-web-app-back-production.up.railway.app/verify" //ასეთი როუთი გვექნება ფრონტში რეაქტზე (ვერცელის)
-    // );
+    await sendVerificationLink(
+      email,
+      "https://entertainment-web-app-back-production.up.railway.app/verify" //ასეთი როუთი გვექნება ფრონტში რეაქტზე (ვერცელის)
+    );
     console.log(newUser.toJSON());
     return res.status(201).json(newUser.toJSON());
   } catch (error) {

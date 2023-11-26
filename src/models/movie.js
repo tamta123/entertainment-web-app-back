@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../database/database.js";
-import User from "./user.js";
+import Category from "./category.js";
 
 const Movie = sequelize.define("Movie", {
   title: { type: DataTypes.STRING, allowNull: false },
@@ -13,8 +13,7 @@ const Movie = sequelize.define("Movie", {
 
 console.log(Movie === sequelize.models.Movie);
 
-Movie.belongsToMany(User, { through: "Bookmarks" });
-User.belongsToMany(Movie, { through: "Bookmarks" });
+Category.hasMany(Movie);
 
 try {
   await sequelize.sync({ force: true });
