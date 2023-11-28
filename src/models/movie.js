@@ -14,13 +14,14 @@ const Movie = sequelize.define("Movie", {
 console.log(Movie === sequelize.models.Movie);
 
 Category.hasMany(Movie);
+Movie.belongsTo(Category);
 
-try {
-  await sequelize.sync({ force: true });
-  console.log("The table for the Movies model was just (re)created!");
-} catch (error) {
-  console.error("Unable to sync:", error);
-}
+// try {
+//   await sequelize.sync({ force: true });
+//   console.log("The table for the Movies model was just (re)created!");
+// } catch (error) {
+//   console.error("Unable to sync:", error);
+// }
 
 // try {
 //   await sequelize.drop();

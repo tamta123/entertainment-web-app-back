@@ -8,14 +8,20 @@ export const getAllMovies = async (_, res) => {
     return res.status(500).json({ message: error });
   }
 };
-console.log("print print");
 
 export const addMovie = async (req, res) => {
   try {
-    const { title, posterSmall, posterMedium, posterLarge, rating, year } =
-      req.body;
-    console.log("tamta");
+    const {
+      CategoryId,
+      title,
+      posterSmall,
+      posterMedium,
+      posterLarge,
+      rating,
+      year,
+    } = req.body;
     const newMovie = await Movie.create({
+      CategoryId: CategoryId,
       title: title,
       posterSmall: posterSmall,
       posterMedium: posterMedium,
@@ -23,7 +29,6 @@ export const addMovie = async (req, res) => {
       rating: rating,
       year: year,
     });
-    console.log("gelashvili");
     console.log(newMovie.toJSON());
     return res.status(201).json(newMovie.toJSON());
   } catch (error) {
