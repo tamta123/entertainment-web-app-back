@@ -6,20 +6,26 @@ const Category = sequelize.define("Category", {
   icon: { type: DataTypes.STRING },
 });
 
+// try {
+//   await Category.bulkCreate([
+//     { name: "movies", icon: "" },
+//     { name: "tvSeries", icon: "" },
+//   ]);
+//   console.log("Records inserted successfully!");
+
+//   await Category.sync({ alter: true });
+//   console.log("The table for the Category model was just (re)created!");
+// } catch (error) {
+//   console.error("Error:", error);
+// }
+
 console.log(Category === sequelize.models.Category);
 
 try {
-  await Category.sync({ force: true });
-  console.log("The table for the Movies model was just (re)created!");
+  await Category.sync({ alter: true });
+  console.log("The table for the Category model was just (re)created!");
 } catch (error) {
   console.error("Unable to sync:", error);
 }
-
-// try {
-//   await sequelize.drop();
-//   console.log("table dropped successfully");
-// } catch (error) {
-//   console.error("Unable to delete:", error);
-// }
 
 export default Category;

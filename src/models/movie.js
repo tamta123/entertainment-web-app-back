@@ -212,42 +212,31 @@ const Movie = sequelize.define("Movie", {
 //   },
 // ]);
 
-console.log(Movie === sequelize.models.Movie);
+// console.log(Movie === sequelize.models.Movie);
 
-//one to many => hasMany, belongsTo
+// one to many => hasMany, belongsTo
+
 Category.hasMany(Movie, {
   foreignKey: {
-    type: DataTypes.UUID,
+    type: DataTypes.INTEGER,
   },
 });
 Movie.belongsTo(Category);
 
 try {
   await sequelize.sync({ alter: true });
-
-  //this is for deleting the certain movies (if needed)
-  // const titlesToDelete = ["string", "Beyond Earth"];
-
-  // // Find and delete movies with the specified titles
-  // await Promise.all(
-  //   titlesToDelete.map(async (title) => {
-  //     // Find the movie based on title
-  //     const movieToDelete = await Movie.findOne({ where: { title } });
-
-  //     // If the movie exists, delete it
-  //     if (movieToDelete) {
-  //       await movieToDelete.destroy();
-  //       console.log(`Movie with title "${title}" deleted successfully.`);
-  //     } else {
-  //       console.log(`Movie with title "${title}" not found.`);
-  //     }
-  //   })
-  // );
-
   // this is the code, to belong the certain movie to certain category
-
   const categoryMovie = await Category.findOne({ where: { name: "movies" } });
+  const categoryTvSeries = await Category.findOne({
+    where: { name: "tvSeries" },
+  });
   const moviesData = [
+    { title: "Beyond Earth" },
+    { title: "Bottom Gear" },
+    { title: "1998" },
+    { title: "The Great Lands" },
+    { title: "Earth’s Untouched" },
+    { title: "No Land Beyond" },
     { title: "Mission: Saturn" },
     { title: "Darker" },
     { title: "Whispering Hill" },
@@ -256,19 +245,43 @@ try {
     { title: "Van Life" },
     { title: "Relentless" },
     { title: "Same Answer II" },
+    { title: "Lone Heart" },
   ];
-  const movies = await Promise.all(
-    moviesData.map(async (data) => await Movie.findOrCreate({ where: data }))
-  );
-  await categoryMovie.addMovies(movies.map(([movie]) => movie));
-  console.log("Movies associated with the category successfully!");
+  const tvSeriesData = [
+    { title: "Undiscovered Cities" },
+    { title: "Dark Side of the Moon" },
+    { title: "The Diary" },
+    { title: "During the Hunt" },
+    { title: "Autosport the Series" },
+    { title: "Below Echo" },
+    { title: "The Rockies" },
+    { title: "Community of Ours" },
+    { title: "112" },
+    { title: "Production Line" },
+    { title: "Dogs" },
+    { title: "Asia in 24 Days" },
+    { title: "The Tasty Tour" },
+    { title: "Unresolved Cases" },
+  ];
+  // const movies = await Promise.all(
+  //   moviesData.map(async (data) => await Movie.findOrCreate({ where: data }))
+  // );
+  // const tvSeries = await Promise.all(
+  //   tvSeriesData.map(async (data) => await Movie.findOrCreate({ where: data }))
+  // );
+  // await categoryMovie.addMovies(movies.map(([movie]) => movie));
+  // await categoryTvSeries.addMovies(tvSeries.map(([tvSeries]) => tvSeries));
+
+  const movieCount = await Movie.count({
+    where: { CategoryId: categoryMovie.id },
+  });
+  const tvSeriesCount = await Movie.count({
+    where: { CategoryId: categoryTvSeries.id },
+  });
+  console.log(`number of movies:${movieCount}`);
+  console.log(`number of tvSeries:${tvSeriesCount}`);
 } catch (error) {
   console.error("Unable to sync:", error);
-  // } catch (error) {
-  //   // try {
-  //   //   await sequelize.drop();
-  //   //   console.log("table dropped successfully");
-  //   console.error("Unable to delete:", error);
 }
 
 export default Movie;
