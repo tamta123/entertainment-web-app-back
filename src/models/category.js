@@ -19,7 +19,7 @@ const Category = sequelize.define("Category", {
 //   console.error("Error:", error);
 // }
 
-console.log(Category === sequelize.models.Category);
+// console.log(Category === sequelize.models.Category);
 
 try {
   await Category.sync({ alter: true });
