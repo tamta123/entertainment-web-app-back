@@ -22,12 +22,18 @@ export const getAllUsers = async (_, res) => {
 //   }
 // };
 
-export const addUSer = async (req, res) => {
+// import bcrypt from "bcrypt";
+
+export const addUser = async (req, res) => {
   try {
     const { firstName, email, password, photo } = req.body;
 
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt); // bcrypt ნიშნავს შემიქმენი ჰაში ამ პაროლისთვის სალთის მიხედვით
+    if (!password || !salt) {
+      throw new Error("Password or salt missing");
+    }
+
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = await User.create({
       firstName: firstName,
@@ -36,14 +42,16 @@ export const addUSer = async (req, res) => {
       photo: photo,
     });
 
+    // Assuming sendVerificationLink is a valid function
     await sendVerificationLink(
       email,
-      "https://entertainment-web-app-back-production.up.railway.app/verify" //ასეთი როუთი გვექნება ფრონტში რეაქტზე (ვერცელის)
+      "https://entertainment-web-app-back-production.up.railway.app/verify"
     );
+
     console.log(newUser.toJSON());
     return res.status(201).json(newUser.toJSON());
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
