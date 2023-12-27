@@ -5,11 +5,14 @@ dotenv.config();
 
 const gmailTransport = nodemailer.createTransport({
   // ტრანსპორტერის ფუნქციას ვქმნიტ რომელიც დააკავშირებს ნოუდ მეილერს(ჩვენს მეილს) ჯიმელითან,
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.GMAIL_USER,
     pass: process.env.GMAIL_PASSWORD,
   },
+  debug: true, // Enable debugging
 });
 
 export default gmailTransport;

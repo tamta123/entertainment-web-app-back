@@ -17,7 +17,10 @@ const send = (to, subject, html) => {
     from: process.env.GMAIL_USER,
   };
 
-  return gmailTransport.sendMail(options);
+  return gmailTransport
+    .sendMail(options)
+    .then((response) => console.log("Mail sent successfully:", response))
+    .catch((error) => console.error("Error sending mail:", error));
 };
 
 export const sendVerificationLink = async (to, name, link) => {
