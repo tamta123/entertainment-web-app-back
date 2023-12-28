@@ -2,13 +2,6 @@ import { DataTypes } from "sequelize";
 import sequelize from "../database/database.js";
 import Movie from "./movie.js";
 
-const isStrongPassword = (value) => {
-  // Implement your password complexity requirements here
-  const regex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-  return regex.test(value);
-};
-
 const User = sequelize.define("User", {
   firstName: { type: DataTypes.STRING, allowNull: false },
   email: {
@@ -28,14 +21,18 @@ const User = sequelize.define("User", {
     allowNull: false,
     validate: {
       isStrongPassword(value) {
-        if (!isStrongPassword(value)) {
+        if (
+          !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/.test(
+            value
+          )
+        ) {
           throw new Error("Password does not meet complexity requirements");
         }
       },
-      len: {
-        args: [8, 20],
-        msg: "Password must be between 8 and 20 characters long.",
-      },
+    },
+    len: {
+      args: [8, 20],
+      msg: "Password must be between 8 and 20 characters long.",
     },
   },
   photo: { type: DataTypes.STRING },
