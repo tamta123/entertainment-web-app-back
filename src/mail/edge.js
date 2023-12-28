@@ -9,7 +9,7 @@ const edge = new Edge({ cache: false });
 const templatesPath = join(path.resolve(), "src/mail/templates");
 edge.mount(templatesPath);
 
-const send = (to, subject, html) => {
+const send = async (to, subject, html) => {
   const options = {
     to,
     subject,
@@ -17,10 +17,19 @@ const send = (to, subject, html) => {
     from: process.env.GMAIL_USER,
   };
 
-  return gmailTransport
-    .sendMail(options)
-    .then((response) => console.log("Mail sent successfully:", response))
-    .catch((error) => console.error("Error sending mail:", error));
+  try {
+    const response = await gmailTransport.sendMail(options);
+    console.log("Mail sent successfully:", response);
+  } catch (error) {
+    console.error("Error sending mail:", error);
+    // Optionally rethrow the error if needed
+    throw error;
+  }
+
+  // return gmailTransport
+
+  //   .then((response) => console.log("Mail sent successfully:", response))
+  //   .catch((error) => console.error("Error sending mail:", error));
 };
 
 export const sendVerificationLink = async (to, name, link) => {
