@@ -32,8 +32,10 @@ export const addUser = async (req, res) => {
     if (!password || !salt) {
       throw new Error("Password or salt missing");
     }
+    console.log("Generated salt:", salt);
 
     const hashedPassword = await bcrypt.hash(password, salt);
+    console.log("Generated hashed password:", hashedPassword);
 
     const newUser = await User.create({
       firstName: firstName,
