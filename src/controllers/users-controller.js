@@ -44,7 +44,7 @@ export const addUser = async (req, res) => {
       photo: photo,
     });
 
-    // Assuming sendVerificationLink is a valid function
+    // // Assuming sendVerificationLink is a valid function
     await sendVerificationLink(
       email,
       "https://entertainment-web-app-back-production.up.railway.app/verify"
@@ -54,7 +54,7 @@ export const addUser = async (req, res) => {
     return res.status(201).json(newUser.toJSON());
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error", error });
   }
 };
 

@@ -25,11 +25,6 @@ const send = async (to, subject, html) => {
     // Optionally rethrow the error if needed
     throw error;
   }
-
-  // return gmailTransport
-
-  //   .then((response) => console.log("Mail sent successfully:", response))
-  //   .catch((error) => console.error("Error sending mail:", error));
 };
 
 export const sendVerificationLink = async (to, name, link) => {
