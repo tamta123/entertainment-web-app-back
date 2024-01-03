@@ -11,10 +11,14 @@ const gmailTransport = nodemailer.createTransport({
   port: 465,
   secure: true,
   auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_PASSWORD,
+    // user: process.env.GMAIL_USER,
+    // pass: process.env.GMAIL_PASSWORD,
+    user: "tamtag186@gmail.com",
+    pass: "thke ofvh qsjp lzai",
   },
   debug: true, // Enable debugging
 });
 
 export default gmailTransport;
+
+//copilot
