@@ -2,6 +2,8 @@ import dotenv from "dotenv";
 import nodemailer from "nodemailer";
 
 dotenv.config();
+console.log("name", process.env.GMAIL_USER);
+console.log("password", process.env.GMAIL_PASSWORD);
 
 const gmailTransport = nodemailer.createTransport({
   // ტრანსპორტერის ფუნქციას ვქმნიტ რომელიც დააკავშირებს ნოუდ მეილერს(ჩვენს მეილს) ჯიმელითან,
