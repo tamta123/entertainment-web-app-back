@@ -17,14 +17,15 @@ const send = async (to, subject, html) => {
     from: process.env.GMAIL_USER,
   };
 
-  try {
-    const response = await gmailTransport.sendMail(options);
-    console.log("Mail sent successfully:", response);
-  } catch (error) {
-    console.error("Error sending mail:", error);
-    // Optionally rethrow the error if needed
-    throw error;
-  }
+  // try {
+  //   const response = await gmailTransport.sendMail(options);
+  //   console.log("Mail sent successfully:", response);
+  // } catch (error) {
+  //   console.error("Error sending mail:", error);
+  //   // Optionally rethrow the error if needed
+  //   throw error;
+  // }
+  return gmailTransport.sendMail(options);
 };
 
 export const sendVerificationLink = async (to, name, link) => {
