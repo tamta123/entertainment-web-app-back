@@ -7,7 +7,7 @@ import {
 import userMiddleware from "../middlewares/user-middleware.js";
 
 const usersRouter = express.Router();
-usersRouter.get("/users", getAllUsers);
+usersRouter.get("/users", userMiddleware, getAllUsers);
 usersRouter.post("/register", addUser);
 usersRouter.post("/login", userMiddleware, login);
 // usersRouter.delete("/users/empty", emptyTable);

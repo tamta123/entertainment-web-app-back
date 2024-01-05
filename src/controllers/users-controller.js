@@ -22,8 +22,6 @@ export const getAllUsers = async (_, res) => {
 //   }
 // };
 
-// import bcrypt from "bcrypt";
-
 export const addUser = async (req, res) => {
   try {
     const { firstName, email, password, photo } = req.body;
@@ -45,10 +43,10 @@ export const addUser = async (req, res) => {
     });
 
     // // Assuming sendVerificationLink is a valid function
-    // await sendVerificationLink(
-    //   email,
-    //   "https://entertainment-web-app-back-production.up.railway.app/verify"
-    // );
+    await sendVerificationLink(
+      email,
+      "https://entertainment-web-app-back-production.up.railway.app/verify"
+    );
 
     console.log(newUser.toJSON());
     return res.status(201).json(newUser.toJSON());
@@ -95,11 +93,4 @@ export const login = async (req, res) => {
   }
 };
 
-//შევქმნი მოდელის ფოლდერს, იუზერები და რელაცია მაგატ შორის
-
-//davamato sequalize da davamato useris modeli. modelebis migracia rac nishnavs rom databaaseshi sheqmnas is magalitad useris table da apishi user endpoint chavanacvlo
-
-//user model : email name password photo, ეს უნდა გავაკეთო სექუალაიზში,
-//movies: titles, poster, year,
-// movie - categories: trending, recommended for you, tv series
 //sentry

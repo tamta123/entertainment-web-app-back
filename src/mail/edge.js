@@ -29,8 +29,9 @@ const send = async (to, subject, html) => {
 };
 
 export const sendVerificationLink = async (to, name, link) => {
-  const html = edge.renderSync("thanks", {
+  const html = edge.renderSync("verify", {
     name,
+    link,
   });
 
   return send(to, "Verify email", html);
