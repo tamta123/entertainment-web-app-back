@@ -1,6 +1,6 @@
 import { Edge } from "edge.js";
 import path, { join } from "path";
-import gmailTransport from "./index.js";
+import mailTransport from "./index.js";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -14,7 +14,7 @@ const send = async (to, subject, html) => {
     to,
     subject,
     html,
-    from: process.env.GMAIL_USER,
+    from: process.env.MAIL_USER,
   };
 
   // try {
@@ -25,7 +25,7 @@ const send = async (to, subject, html) => {
   //   // Optionally rethrow the error if needed
   //   throw error;
   // }
-  return gmailTransport.sendMail(options);
+  return mailTransport.sendMail(options);
 };
 
 export const sendVerificationLink = async (to, name, link) => {
