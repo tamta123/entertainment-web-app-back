@@ -17,14 +17,6 @@ const send = async (to, subject, html) => {
     from: process.env.MAIL_USER,
   };
 
-  // try {
-  //   const response = await gmailTransport.sendMail(options);
-  //   console.log("Mail sent successfully:", response);
-  // } catch (error) {
-  //   console.error("Error sending mail:", error);
-  //   // Optionally rethrow the error if needed
-  //   throw error;
-  // }
   return mailTransport.sendMail(options);
 };
 

@@ -7,18 +7,40 @@ console.log("password", process.env.MAIL_PASSWORD);
 
 const mailTransport = nodemailer.createTransport({
   // ტრანსპორტერის ფუნქციას ვქმნიტ რომელიც დააკავშირებს ნოუდ მეილერს(ჩვენს მეილს) ჯიმელითან,
-  host: "smtp.mail.com",
-  port: 465,
-  secure: true,
+  host: "gmail",
   auth: {
     user: process.env.MAIL_USER,
     pass: process.env.MAIL_PASSWORD,
-    // user: "tamtag186@gmail.com",
-    // pass: "thke ofvh qsjp lzai",
   },
-  debug: true, // Enable debugging
+  debug: true,
 });
 
 export default mailTransport;
 
 //copilot
+
+// import nodemailer from "nodemailer"
+// import { codeConfirmationTemplate } from "mail"
+
+// export const sendCodeConfirmation = async () => {
+//   const transporter = nodemailer.createTransport({
+//     service: "gmail",
+//     auth: {
+//       user: process.env.MAIL_USER,
+//       pass: process.env.MAIL_PASSWORD,
+//     },
+//   })
+//   const mailOptions = {
+//     from: <${process.env.EMAIL_FROM}>,
+//     to: email,
+//     subject: "MLTR Verification Code",
+//     html: codeConfirmationTemplate(code),
+//   }
+//   transporter.sendMail(mailOptions, (err: any, info: any) => {
+//     if (err) {
+//       console.log(err)
+//     } else {
+//       console.log(info)
+//     }
+//   })
+// }
