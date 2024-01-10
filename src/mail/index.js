@@ -2,20 +2,20 @@ import dotenv from "dotenv";
 import nodemailer from "nodemailer";
 
 dotenv.config();
-console.log("name", process.env.MAIL_USER);
-console.log("password", process.env.MAIL_PASSWORD);
+console.log("name", process.env.GMAIL_USER);
+console.log("password", process.env.GMAIL_PASSWORD);
 
-const mailTransport = nodemailer.createTransport({
+const gmailTransport = nodemailer.createTransport({
   // ტრანსპორტერის ფუნქციას ვქმნიტ რომელიც დააკავშირებს ნოუდ მეილერს(ჩვენს მეილს) ჯიმელითან,
-  host: "gmail",
+  host: "smtp.gmail.com",
   auth: {
-    user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASSWORD,
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_PASSWORD,
   },
   debug: true,
 });
 
-export default mailTransport;
+export default gmailTransport;
 
 //copilot
 
