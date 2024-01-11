@@ -43,10 +43,10 @@ export const addUser = async (req, res) => {
     });
 
     // // Assuming sendVerificationLink is a valid function
-    await sendVerificationLink(
-      email,
-      "https://entertainment-web-app-back-production.up.railway.app/verify"
-    );
+    // await sendVerificationLink(
+    //   email,
+    //   "https://entertainment-web-app-back-production.up.railway.app/verify"
+    // );
 
     console.log(newUser.toJSON());
     return res.status(201).json(newUser.toJSON());
