@@ -26,13 +26,13 @@ export const addUser = async (req, res) => {
   try {
     const { firstName, email, password, photo } = req.body;
 
-    // Check if a user with the same email already exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res
-        .status(400)
-        .json({ message: "A user with this email already exists." });
-    }
+    // // Check if a user with the same email already exists
+    // const existingUser = await User.findOne({ email });
+    // if (existingUser) {
+    //   return res
+    //     .status(400)
+    //     .json({ message: "A user with this email already exists." });
+    // }
 
     const salt = await bcrypt.genSalt(10);
     if (!password || !salt) {
