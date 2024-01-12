@@ -34,6 +34,19 @@ export const addUser = async (req, res) => {
     //     .json({ message: "A user with this email already exists." });
     // }
 
+    // Check if a user with the same email already exists
+    const emailCheck = await User.findOne({
+      where: {
+        email: req.body.email,
+      },
+    });
+
+    if (emailCheck) {
+      return res
+        .status(400)
+        .json({ message: "A user with this email already exists." });
+    }
+
     const salt = await bcrypt.genSalt(10);
     if (!password || !salt) {
       throw new Error("Password or salt missing");
