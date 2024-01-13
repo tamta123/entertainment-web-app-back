@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { sendVerificationLink } from "../mail/edge.js";
 import User from "../models/user.js";
+import userMiddleware from "../middlewares/user-middleware.js";
 
 export const getAllUsers = async (_, res) => {
   try {
@@ -24,53 +25,55 @@ export const getAllUsers = async (_, res) => {
 
 export const addUser = async (req, res) => {
   try {
-    const { firstName, email, password, photo } = req.body;
+    userMiddleware(req, res, async () => {
+      const { firstName, email, password, photo, isVerified } = req.body;
+      // Check if a user with the same email already exists
+      const emailCheck = await User.findOne({
+        where: {
+          email: req.body.email,
+        },
+      });
 
-    // // Check if a user with the same email already exists
-    // const existingUser = await User.findOne({ email });
-    // if (existingUser) {
-    //   return res
-    //     .status(400)
-    //     .json({ message: "A user with this email already exists." });
-    // }
+      if (emailCheck) {
+        return res
+          .status(400)
+          .json({ message: "A user with this email already exists." });
+      }
 
-    // Check if a user with the same email already exists
-    const emailCheck = await User.findOne({
-      where: {
-        email: req.body.email,
-      },
+      const salt = await bcrypt.genSalt(10);
+      if (!password || !salt) {
+        throw new Error("Password or salt missing");
+      }
+      console.log("Generated salt:", salt);
+
+      const hashedPassword = await bcrypt.hash(password, salt);
+      console.log("Generated hashed password:", hashedPassword);
+
+      const newUser = await User.create({
+        firstName: firstName,
+        email: email,
+        password: hashedPassword,
+        photo: photo,
+        isVerified: isVerified,
+      });
+
+      // // Assuming sendVerificationLink is a valid function
+      // await sendVerificationLink(
+      //   email,
+      //   "https://entertainment-web-app-back-production.up.railway.app/verify"
+      // );
+
+      // Generate JWT token
+      const tokenData = {
+        id: newUser.id,
+        email: newUser.email,
+      };
+
+      const token = jwt.sign(tokenData, process.env.JWT_SECRET);
+
+      // Send the token along with user data in the response
+      return res.status(201).json({ user: newUser.toJSON(), token });
     });
-
-    if (emailCheck) {
-      return res
-        .status(400)
-        .json({ message: "A user with this email already exists." });
-    }
-
-    const salt = await bcrypt.genSalt(10);
-    if (!password || !salt) {
-      throw new Error("Password or salt missing");
-    }
-    console.log("Generated salt:", salt);
-
-    const hashedPassword = await bcrypt.hash(password, salt);
-    console.log("Generated hashed password:", hashedPassword);
-
-    const newUser = await User.create({
-      firstName: firstName,
-      email: email,
-      password: hashedPassword,
-      photo: photo,
-    });
-
-    // // Assuming sendVerificationLink is a valid function
-    // await sendVerificationLink(
-    //   email,
-    //   "https://entertainment-web-app-back-production.up.railway.app/verify"
-    // );
-
-    console.log(newUser.toJSON());
-    return res.status(201).json(newUser.toJSON());
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Internal Server Error", error });

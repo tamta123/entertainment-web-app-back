@@ -36,6 +36,8 @@ paths:
                   type: string
                 photo:
                   type: string
+                isVerified:
+                  type: boolean
       responses:
         "201":
           description: new user
