@@ -103,10 +103,12 @@ export const login = async (req, res) => {
           return res.status(401).json(error);
         }
       } else {
-        return res.status(401).json("Password is incorrect");
+        return res.status(401).json({ error: "Password is incorrect" });
       }
     } else {
-      return res.status(401).json("User with this email does not exist");
+      return res
+        .status(401)
+        .json({ error: "User with this email does not exist" });
     }
   } catch (error) {
     console.error(error);

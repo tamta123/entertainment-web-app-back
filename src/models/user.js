@@ -36,6 +36,10 @@ const User = sequelize.define("User", {
     },
   },
   photo: { type: DataTypes.STRING },
+  isVerified: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
 });
 console.log(User === sequelize.models.User);
 
