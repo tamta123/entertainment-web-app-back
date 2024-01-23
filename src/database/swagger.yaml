@@ -6,7 +6,6 @@ info:
 
 servers:
   - url: https://entertainment-web-app-back-production.up.railway.app/api/
-    # description: production server
   - url: http://localhost:3000/api/
     description: local server
 components:
@@ -38,6 +37,7 @@ paths:
                   type: string
                 isVerified:
                   type: boolean
+                  default: false # Default value set to false
       responses:
         "201":
           description: new user
@@ -118,13 +118,6 @@ paths:
       responses:
         "201":
           description: new category
-  /allCategories:
-    get:
-      tags:
-        - Category
-      responses:
-        "200":
-          description: get all categories
   /verify-email/{id}/{token}:
     get:
       tags:
