@@ -1,4 +1,5 @@
 import express from "express";
+import User from "../models/user.js";
 
 // Function to check if username or email already exists in the database
 // This is to avoid having two users with the same username and email
@@ -8,7 +9,7 @@ const saveUser = async (req, res, next) => {
     // Search the database to see if the username already exists
     const userNameExist = await User.findOne({
       where: {
-        firstName: req.body.userName,
+        firstName: req.body.firstName,
       },
     });
     // If username exists in the database, respond with a status of 409

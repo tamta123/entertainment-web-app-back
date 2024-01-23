@@ -2,6 +2,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/user.js";
 import Token from "../models/token.js";
+import crypto from "crypto"; // Import the 'crypto' module
+import { sendingMail } from "../mail/index.js";
 
 export const getAllUsers = async (_, res) => {
   try {
