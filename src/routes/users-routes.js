@@ -8,7 +8,7 @@ import userMiddleware from "../middlewares/user-middleware.js";
 
 const usersRouter = express.Router();
 usersRouter.get("/users", userMiddleware, getAllUsers);
-usersRouter.post("/register", addUser);
+usersRouter.post("/register", userMiddleware.saveUser, addUser);
 usersRouter.get("/verify-email/:id/:token", verifyEmail);
 
 // usersRouter.post("/login", userMiddleware, login);
