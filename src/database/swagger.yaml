@@ -38,7 +38,6 @@ paths:
                   type: string
                 isVerified:
                   type: boolean
-                  default: false
       responses:
         "201":
           description: new user
