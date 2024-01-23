@@ -1,6 +1,9 @@
 // import dotenv from "dotenv";
 import nodemailer from "nodemailer";
 
+console.log("name", process.env.GMAIL_USER.trim());
+console.log("password", process.env.GMAIL_PASSWORD);
+
 //function to send email to the user
 module.exports.sendingMail = async ({ from, to, subject, text }) => {
   try {
@@ -32,8 +35,7 @@ module.exports.sendingMail = async ({ from, to, subject, text }) => {
 };
 
 // dotenv.config();
-// console.log("name", process.env.GMAIL_USER.trim());
-// console.log("password", process.env.GMAIL_PASSWORD);
+
 // // console.log("All environment variables:", process.env);
 
 // const gmailTransport = nodemailer.createTransport({
