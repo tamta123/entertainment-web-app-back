@@ -20,7 +20,7 @@ export const sendingMail = async ({ from, to, subject, text }) => {
       // ტრანსპორტერის ფუნქციას ვქმნიტ რომელიც დააკავშირებს ნოუდ მეილერს(ჩვენს მეილს) ჯიმელითან,
       service: "gmail",
       auth: {
-        user: process.env.GMAIL_USER,
+        user: process.env.GMAIL_USER.trim(),
         pass: process.env.GMAIL_PASSWORD,
       },
       debug: true,
