@@ -118,7 +118,7 @@ paths:
       responses:
         "201":
           description: new category
-  /verify-email/{id}/{token}:
+  /users/verify-email:
     get:
       tags:
         - User

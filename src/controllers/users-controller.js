@@ -58,7 +58,7 @@ export const addUser = async (req, res) => {
           subject: "Account Verification Link",
           text: `Hello, ${firstName} Please verify your email by
               clicking this link :
-              http://localhost:8080/api/users/verify-email/${user.id}/${setToken.token} `,
+              https://entertainment-web-app-back-production.up.railway.app/api/users/verify-email/${user.id}/${setToken.token} `,
         });
         //if token is not created, send a status of 400
       } else {
