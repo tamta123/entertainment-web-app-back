@@ -132,13 +132,13 @@ paths:
           required: true
           schema:
             type: string
-          description: User Id
+          description: UserId
         - name: token
           in: path
           required: true
           schema:
             type: string
-          description: Verification token
+          description: token
       responses:
         "400":
           description: Your verification link may have expired. Please click on resend for verify your Email.
