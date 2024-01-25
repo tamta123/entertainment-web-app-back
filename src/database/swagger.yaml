@@ -132,7 +132,7 @@ paths:
           required: true
           schema:
             type: string
-          description: UserId
+          description: userId
         - name: token
           in: path
           required: true

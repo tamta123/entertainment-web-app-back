@@ -40,16 +40,16 @@ const User = sequelize.define("User", {
     defaultValue: false,
   },
 });
-console.log(User === sequelize.models.User);
+// console.log(User === sequelize.models.User);
 
 Movie.belongsToMany(User, { through: "Bookmarks" });
 User.belongsToMany(Movie, { through: "Bookmarks" });
 
-try {
-  await User.sync({ alter: true });
-  console.log("The table for the User model was just (re)created!");
-} catch (error) {
-  console.error("Unable to sync:", error);
-}
+// try {
+//   await User.sync({ alter: true });
+//   console.log("The table for the User model was just (re)created!");
+// } catch (error) {
+//   console.error("Unable to sync:", error);
+// }
 
 export default User;

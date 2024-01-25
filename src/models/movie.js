@@ -292,56 +292,56 @@ Movie.belongsTo(HomeCategory);
 //   console.error("Unable to sync:", error);
 // }
 
-try {
-  await sequelize.sync({ alter: true });
-  // this is the code, to belong the certain movie to certain category
-  const trending = await HomeCategory.findOne({ where: { name: "trending" } });
-  const recommended = await HomeCategory.findOne({
-    where: { name: "recommended4u" },
-  });
-  const trendingData = [
-    { title: "Beyond Earth" },
-    { title: "Bottom Gear" },
-    { title: "Undiscovered Cities" },
-    { title: "1998" },
-    { title: "Dark Side of the Moon" },
-    { title: "Below Echo" },
-  ];
-  const recommendedData = [
-    { title: "Undiscovered Cities" },
-    { title: "The Diary" },
-    { title: "During the Hunt" },
-    { title: "Autosport the Series" },
-    { title: "The Rockies" },
-    { title: "Community of Ours" },
-    { title: "112" },
-    { title: "Production Line" },
-    { title: "Dogs" },
-    { title: "Asia in 24 Days" },
-    { title: "The Tasty Tour" },
-    { title: "Unresolved Cases" },
-  ];
-  const trend = await Promise.all(
-    trendingData.map(async (data) => await Movie.findOrCreate({ where: data }))
-  );
-  const recommend = await Promise.all(
-    recommendedData.map(
-      async (data) => await Movie.findOrCreate({ where: data })
-    )
-  );
-  await trending.addMovies(trend.map(([movie]) => movie));
-  await recommended.addMovies(recommend.map(([tvSeries]) => tvSeries));
+// try {
+//   await sequelize.sync({ alter: true });
+//   // this is the code, to belong the certain movie to certain category
+//   const trending = await HomeCategory.findOne({ where: { name: "trending" } });
+//   const recommended = await HomeCategory.findOne({
+//     where: { name: "recommended4u" },
+//   });
+//   const trendingData = [
+//     { title: "Beyond Earth" },
+//     { title: "Bottom Gear" },
+//     { title: "Undiscovered Cities" },
+//     { title: "1998" },
+//     { title: "Dark Side of the Moon" },
+//     { title: "Below Echo" },
+//   ];
+//   const recommendedData = [
+//     { title: "Undiscovered Cities" },
+//     { title: "The Diary" },
+//     { title: "During the Hunt" },
+//     { title: "Autosport the Series" },
+//     { title: "The Rockies" },
+//     { title: "Community of Ours" },
+//     { title: "112" },
+//     { title: "Production Line" },
+//     { title: "Dogs" },
+//     { title: "Asia in 24 Days" },
+//     { title: "The Tasty Tour" },
+//     { title: "Unresolved Cases" },
+//   ];
+//   const trend = await Promise.all(
+//     trendingData.map(async (data) => await Movie.findOrCreate({ where: data }))
+//   );
+//   const recommend = await Promise.all(
+//     recommendedData.map(
+//       async (data) => await Movie.findOrCreate({ where: data })
+//     )
+//   );
+//   await trending.addMovies(trend.map(([movie]) => movie));
+//   await recommended.addMovies(recommend.map(([tvSeries]) => tvSeries));
 
-  const trendingCount = await Movie.count({
-    where: { HomeCategoryId: trending.id },
-  });
-  const RecommendedCount = await Movie.count({
-    where: { HomeCategoryId: recommended.id },
-  });
-  console.log(`number of movies:${trendingCount}`);
-  console.log(`number of tvSeries:${RecommendedCount}`);
-} catch (error) {
-  console.error("Unable to sync:", error);
-}
+//   const trendingCount = await Movie.count({
+//     where: { HomeCategoryId: trending.id },
+//   });
+//   const RecommendedCount = await Movie.count({
+//     where: { HomeCategoryId: recommended.id },
+//   });
+//   console.log(`number of movies:${trendingCount}`);
+//   console.log(`number of tvSeries:${RecommendedCount}`);
+// } catch (error) {
+//   console.error("Unable to sync:", error);
+// }
 
 export default Movie;

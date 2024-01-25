@@ -22,18 +22,18 @@ const Token = sequelize.define("Token", {
     type: DataTypes.STRING,
   },
 });
-console.log(Token === sequelize.models.Token);
+// console.log(Token === sequelize.models.Token);
 
 User.hasOne(Token, {
   foreignKey: "userId",
 });
 Token.belongsTo(User);
 
-try {
-  await Token.sync({ alter: true });
-  console.log("The table for the Token model was just (re)created!");
-} catch (error) {
-  console.error("Unable to sync:", error);
-}
+// try {
+//   await Token.sync({ alter: true });
+//   console.log("The table for the Token model was just (re)created!");
+// } catch (error) {
+//   console.error("Unable to sync:", error);
+// }
 
 export default Token;

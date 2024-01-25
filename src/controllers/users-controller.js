@@ -37,6 +37,7 @@ export const addUser = async (req, res) => {
       photo,
       isVerified,
     };
+
     //saving the user
     const user = await User.create(data);
     //if user details are captured
@@ -64,6 +65,8 @@ export const addUser = async (req, res) => {
         return res.status(400).send("token not created");
       }
       console.log("user", JSON.stringify(user, null, 2));
+      console.log("User ID:", user.id);
+      console.log("Token:", setToken.token);
       //send user details
       return res.status(201).send(user);
     }
@@ -79,8 +82,6 @@ export const verifyEmail = async (req, res) => {
     const token = req.params.token;
 
     // Log the values of req.params.id and req.params.token
-    console.log("User ID:", req.params.id);
-    console.log("Verification Token:", req.params.token);
 
     //find user by token using the where clause
     const userToken = await Token.findOne({
