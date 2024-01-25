@@ -41,6 +41,10 @@ paths:
       responses:
         "201":
           description: new user
+        "400":
+         description: Token not created
+        "500":
+         description: Internal server error
   /users:
     get:
       tags:
@@ -136,11 +140,11 @@ paths:
             type: string
           description: Verification token
       responses:
-        "200":
-          description: Account successfully verified
         "400":
-          description: Verification link may have expired
+          description: Your verification link may have expired. Please click on resend for verify your Email.
         "401":
-          description: Unable to find a user for this verification
-        "500":
-          description: Internal Server Error
+          description: We were unable to find a user for this verification. Please SignUp
+        "200":
+          description: User has already been verified.Please Login
+        "200":
+          description: Your account has been successfully verified
