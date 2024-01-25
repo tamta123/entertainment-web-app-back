@@ -46,7 +46,6 @@ export const addUser = async (req, res) => {
         userId: user.id,
         token: crypto.randomBytes(16).toString("hex"),
       });
-
       //if token is created, send the user an email
       if (setToken) {
         //send email to the user
@@ -124,6 +123,46 @@ export const verifyEmail = async (req, res) => {
             .status(200)
             .send("Your account has been successfully verified");
         }
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//login authentication
+
+export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    //find a user by their email
+    const user = await User.findOne({ email });
+    console.log = user;
+    //if user email is found, compare password with bcrypt
+    if (user) {
+      const isSame = await bcrypt.compare(password, user);
+      //if password is the same, check if the user is verified,
+      //if verified, generate a token and use it to set cookies for the user
+      if (isSame) {
+        //check if they are verified
+        const verified = user.isVerified;
+        if (verified) {
+          let token = jwt.sign({ id: user.id }.process.env.JWT_SECRET, {
+            expiresIn: 1 * 24 * 60 * 60 * 1000,
+          });
+          res.cookie("jwt", token, {
+            maxAge: 1 * 24 * 60 * 60,
+            httpOnly: true,
+          });
+          console.log("user", JSON.stringify(user, null, 2));
+          console.log(token);
+          //send user data
+          return res.status(201).send(user);
+        } else {
+          return res.status(401).send("user not verified");
+        }
+      } else {
+        return res.status(401).send("authentication failed");
       }
     }
   } catch (error) {
