@@ -77,10 +77,15 @@ export const addUser = async (req, res) => {
 export const verifyEmail = async (req, res) => {
   try {
     const token = req.params.token;
+
+    // Log the values of req.params.id and req.params.token
+    console.log("User ID:", req.params.id);
+    console.log("Verification Token:", req.params.token);
+
     //find user by token using the where clause
     const userToken = await Token.findOne({
       token,
-      where: { userID: req.params.id },
+      where: { userId: req.params.id },
     });
     console.log(userToken);
     //if token doesn't exist, send status of 400
