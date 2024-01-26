@@ -21,7 +21,7 @@ function serverStart() {
   app.use("/api", usersRouter, moviesRouter, categoriesRouter);
   app.use("/thumbnails", express.static("public/thumbnails"));
   app.use("/", ...swaggerMiddleware);
-  app.listen(process.env.PORT || 3000);
+  app.listen(process.env.PORT || 3100);
 }
 
 init();
