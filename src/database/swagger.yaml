@@ -122,7 +122,7 @@ paths:
       responses:
         "201":
           description: new category
-  /users/verify-email:
+  /users/verify-email/{id}/{token}:
     get:
       tags:
         - User

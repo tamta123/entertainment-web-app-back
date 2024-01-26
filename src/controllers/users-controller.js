@@ -81,8 +81,6 @@ export const verifyEmail = async (req, res) => {
   try {
     const token = req.params.token;
 
-    // Log the values of req.params.id and req.params.token
-
     //find user by token using the where clause
     const userToken = await Token.findOne({
       token,
