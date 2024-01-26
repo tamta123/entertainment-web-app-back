@@ -12,6 +12,7 @@ usersRouter.get("/users", getAllUsers);
 usersRouter.post("/register", saveUser, addUser);
 usersRouter.post("/login", login);
 usersRouter.get("/users/verify-email/:id/:token", verifyEmail);
+
 // usersRouter.delete("/users/empty", emptyTable);
 
 export default usersRouter;
