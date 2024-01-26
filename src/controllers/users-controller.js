@@ -80,7 +80,8 @@ export const addUser = async (req, res) => {
 export const verifyEmail = async (req, res) => {
   try {
     const token = req.params.token;
-
+    console.log("userId", userId);
+    console.log("token", token);
     //find user by token using the where clause
     const userToken = await Token.findOne({
       token,
@@ -114,7 +115,7 @@ export const verifyEmail = async (req, res) => {
           {
             isVerified: true,
           },
-          { where: { id: userToken.userID } }
+          { where: { id: userToken.userId } }
         );
         console.log(updated);
         //if not updated send error message
