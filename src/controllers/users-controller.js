@@ -30,7 +30,7 @@ export const addUser = async (req, res) => {
     const data = {
       firstName,
       email,
-      password,
+      password: await bcrypt.hash(password, 10),
       photo,
       isVerified,
     };
@@ -146,7 +146,7 @@ export const login = async (req, res) => {
     console.log = user;
     //if user email is found, compare password with bcrypt
     if (user) {
-      const isSame = await bcrypt.compare(password, user);
+      const isSame = bcrypt.compare(password, user);
       //if password is the same, check if the user is verified,
       //if verified, generate a token and use it to set cookies for the user
       if (isSame) {
