@@ -8,7 +8,6 @@ export const getAllCategories = async (_, res) => {
     return res.status(500).json({ message: error });
   }
 };
-console.log("print print");
 
 export const addCategory = async (req, res) => {
   try {

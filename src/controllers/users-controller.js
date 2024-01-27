@@ -24,9 +24,6 @@ export const getAllUsers = async (_, res) => {
 //   }
 // };
 
-//signing a user up
-//hashing users password before its saved to the database with bcrypt
-
 export const addUser = async (req, res) => {
   try {
     const { firstName, email, password, photo, isVerified } = req.body;
@@ -77,15 +74,17 @@ export const addUser = async (req, res) => {
   }
 };
 
+//verifying the email of the user
 export const verifyEmail = async (req, res) => {
   try {
     const token = req.params.token;
-    console.log("userId", userId);
-    console.log("token", token);
+
     //find user by token using the where clause
     const userToken = await Token.findOne({
       token,
-      where: { userId: req.params.id },
+      where: {
+        userId: req.params.id,
+      },
     });
     console.log(userToken);
     //if token doesn't exist, send status of 400
@@ -93,37 +92,40 @@ export const verifyEmail = async (req, res) => {
       return res.status(400).send({
         msg: "Your verification link may have expired. Please click on resend for verify your Email.",
       });
-    }
-    //if token exist, find the user with that token
-    else {
+
+      //if token exist, find the user with that token
+    } else {
       const user = await User.findOne({ where: { id: req.params.id } });
       if (!user) {
         console.log(user);
+
         return res.status(401).send({
           msg: "We were unable to find a user for this verification. Please SignUp!",
         });
-      }
-      //if user is already verified, tell the user to login
-      else if (user.isVerified) {
+
+        //if user is already verified, tell the user to login
+      } else if (user.isVerified) {
         return res
           .status(200)
-          .send("User has already been verified.Please Login");
-      }
-      //if user is not verified, change the verified to true by updating the field
-      else {
+          .send("User has been already verified. Please Login");
+
+        //if user is not verified, change the verified to true by updating the field
+      } else {
         const updated = await User.update(
+          { isVerified: true },
           {
-            isVerified: true,
-          },
-          { where: { id: userToken.userId } }
+            where: {
+              id: userToken.userId,
+            },
+          }
         );
         console.log(updated);
+
         //if not updated send error message
         if (!updated) {
           return res.status(500).send({ msg: err.message });
-        }
-        //else send status of 200
-        else {
+          //else send status of 200
+        } else {
           return res
             .status(200)
             .send("Your account has been successfully verified");
@@ -136,7 +138,6 @@ export const verifyEmail = async (req, res) => {
 };
 
 //login authentication
-
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
