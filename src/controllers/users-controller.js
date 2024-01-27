@@ -142,11 +142,11 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     //find a user by their email
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ where: { email } });
     console.log = user;
     //if user email is found, compare password with bcrypt
     if (user) {
-      const isSame = bcrypt.compare(password, user);
+      const isSame = await bcrypt.compare(password, user.password);
       //if password is the same, check if the user is verified,
       //if verified, generate a token and use it to set cookies for the user
       if (isSame) {
