@@ -22,8 +22,9 @@ export const getAllUsers = async (_, res) => {
 //   } catch (error) {
 //     return res.status(500).json({ message: error });
 //   }
-// };
+// }
 
+//register new user to the database
 export const addUser = async (req, res) => {
   try {
     const { firstName, email, password, photo, isVerified } = req.body;
@@ -143,17 +144,18 @@ export const login = async (req, res) => {
     const { email, password } = req.body;
     //find a user by their email
     const user = await User.findOne({ where: { email } });
-    console.log = user;
+    // console.log = user;
     //if user email is found, compare password with bcrypt
     if (user) {
       const isSame = await bcrypt.compare(password, user.password);
+      console.log("password", user.password);
       //if password is the same, check if the user is verified,
       //if verified, generate a token and use it to set cookies for the user
       if (isSame) {
         //check if they are verified
         const verified = user.isVerified;
         if (verified) {
-          let token = jwt.sign({ id: user.id }.process.env.JWT_SECRET, {
+          let token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
             expiresIn: 1 * 24 * 60 * 60 * 1000,
           });
           res.cookie("jwt", token, {
@@ -175,101 +177,3 @@ export const login = async (req, res) => {
     console.log(error);
   }
 };
-
-// export const addUser = async (req, res) => {
-//   try {
-//     userMiddleware(req, res, async () => {
-//       const { firstName, email, password, photo, isVerified } = req.body;
-//       // Check if a user with the same email already exists
-//       const emailCheck = await User.findOne({
-//         where: {
-//           email: req.body.email,
-//         },
-//       });
-
-//       if (emailCheck) {
-//         return res
-//           .status(400)
-//           .json({ message: "A user with this email already exists." });
-//       }
-
-//       const salt = await bcrypt.genSalt(10);
-//       if (!password || !salt) {
-//         throw new Error("Password or salt missing");
-//       }
-//       console.log("Generated salt:", salt);
-
-//       const hashedPassword = await bcrypt.hash(password, salt);
-//       console.log("Generated hashed password:", hashedPassword);
-
-//       const newUser = await User.create({
-//         firstName: firstName,
-//         email: email,
-//         password: hashedPassword,
-//         photo: photo,
-//         isVerified: isVerified,
-//       });
-
-//       // // Assuming sendVerificationLink is a valid function
-//       // await sendVerificationLink(
-//       //   email,
-//       //   "https://entertainment-web-app-back-production.up.railway.app/verify"
-//       // );
-
-//       // Generate JWT token
-//       const tokenData = {
-//         id: newUser.id,
-//         email: newUser.email,
-//       };
-
-//       const token = jwt.sign(tokenData, process.env.JWT_SECRET);
-
-//       // Send the token along with user data in the response
-//       return res.status(201).json({ user: newUser.toJSON(), token });
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(500).json({ message: "Internal Server Error", error });
-//   }
-// };
-
-// export const login = async (req, res) => {
-//   try {
-//     const { email, password } = req.body;
-
-//     // Find the user by email using Sequelize
-//     const user = await User.findOne({ where: { email: email } });
-
-//     if (user) {
-//       const hashedPassword = user.password;
-
-//       // Compare passwords using bcrypt
-//       const passwordsMatch = await bcrypt.compare(password, hashedPassword);
-
-//       if (passwordsMatch) {
-//         try {
-//           // Generate JWT token
-//           const sightData = {
-//             email: user.email,
-//             id: user.id,
-//           };
-//           const token = jwt.sign(sightData, process.env.JWT_SECRET);
-//           return res.status(200).json({ ...sightData, token });
-//         } catch (error) {
-//           return res.status(401).json(error);
-//         }
-//       } else {
-//         return res.status(401).json({ error: "Password is incorrect" });
-//       }
-//     } else {
-//       return res
-//         .status(401)
-//         .json({ error: "User with this email does not exist" });
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(500).json({ message: "ტამტა" });
-//   }
-// };
-
-//sentry
