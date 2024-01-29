@@ -231,66 +231,66 @@ HomeCategory.hasMany(Movie, {
 });
 Movie.belongsTo(HomeCategory);
 
-// try {
-//   await sequelize.sync({ alter: true });
-//   // this is the code, to belong the certain movie to certain category
-//   const categoryMovie = await Category.findOne({ where: { name: "movies" } });
-//   const categoryTvSeries = await Category.findOne({
-//     where: { name: "tvSeries" },
-//   });
-//   const moviesData = [
-//     { title: "Beyond Earth" },
-//     { title: "Bottom Gear" },
-//     { title: "1998" },
-//     { title: "The Great Lands" },
-//     { title: "Earth’s Untouched" },
-//     { title: "No Land Beyond" },
-//     { title: "Mission: Saturn" },
-//     { title: "Darker" },
-//     { title: "Whispering Hill" },
-//     { title: "Off the Track" },
-//     { title: "The Heiress" },
-//     { title: "Van Life" },
-//     { title: "Relentless" },
-//     { title: "Same Answer II" },
-//     { title: "Lone Heart" },
-//   ];
-//   const tvSeriesData = [
-//     { title: "Undiscovered Cities" },
-//     { title: "Dark Side of the Moon" },
-//     { title: "The Diary" },
-//     { title: "During the Hunt" },
-//     { title: "Autosport the Series" },
-//     { title: "Below Echo" },
-//     { title: "The Rockies" },
-//     { title: "Community of Ours" },
-//     { title: "112" },
-//     { title: "Production Line" },
-//     { title: "Dogs" },
-//     { title: "Asia in 24 Days" },
-//     { title: "The Tasty Tour" },
-//     { title: "Unresolved Cases" },
-//   ];
-//   // const movies = await Promise.all(
-//   //   moviesData.map(async (data) => await Movie.findOrCreate({ where: data }))
-//   // );
-//   // const tvSeries = await Promise.all(
-//   //   tvSeriesData.map(async (data) => await Movie.findOrCreate({ where: data }))
-//   // );
-//   // await categoryMovie.addMovies(movies.map(([movie]) => movie));
-//   // await categoryTvSeries.addMovies(tvSeries.map(([tvSeries]) => tvSeries));
+try {
+  await sequelize.sync({ alter: true });
+  // this is the code, to belong the certain movie to certain category
+  const categoryMovie = await Category.findOne({ where: { name: "movies" } });
+  const categoryTvSeries = await Category.findOne({
+    where: { name: "tvSeries" },
+  });
+  const moviesData = [
+    { title: "Beyond Earth" },
+    { title: "Bottom Gear" },
+    { title: "1998" },
+    { title: "The Great Lands" },
+    { title: "Earth’s Untouched" },
+    { title: "No Land Beyond" },
+    { title: "Mission: Saturn" },
+    { title: "Darker" },
+    { title: "Whispering Hill" },
+    { title: "Off the Track" },
+    { title: "The Heiress" },
+    { title: "Van Life" },
+    { title: "Relentless" },
+    { title: "Same Answer II" },
+    { title: "Lone Heart" },
+  ];
+  const tvSeriesData = [
+    { title: "Undiscovered Cities" },
+    { title: "Dark Side of the Moon" },
+    { title: "The Diary" },
+    { title: "During the Hunt" },
+    { title: "Autosport the Series" },
+    { title: "Below Echo" },
+    { title: "The Rockies" },
+    { title: "Community of Ours" },
+    { title: "112" },
+    { title: "Production Line" },
+    { title: "Dogs" },
+    { title: "Asia in 24 Days" },
+    { title: "The Tasty Tour" },
+    { title: "Unresolved Cases" },
+  ];
+  // const movies = await Promise.all(
+  //   moviesData.map(async (data) => await Movie.findOrCreate({ where: data }))
+  // );
+  // const tvSeries = await Promise.all(
+  //   tvSeriesData.map(async (data) => await Movie.findOrCreate({ where: data }))
+  // );
+  // await categoryMovie.addMovies(movies.map(([movie]) => movie));
+  // await categoryTvSeries.addMovies(tvSeries.map(([tvSeries]) => tvSeries));
 
-//   const movieCount = await Movie.count({
-//     where: { CategoryId: categoryMovie.id },
-//   });
-//   const tvSeriesCount = await Movie.count({
-//     where: { CategoryId: categoryTvSeries.id },
-//   });
-//   console.log(`number of movies:${movieCount}`);
-//   console.log(`number of tvSeries:${tvSeriesCount}`);
-// } catch (error) {
-//   console.error("Unable to sync:", error);
-// }
+  const movieCount = await Movie.count({
+    where: { CategoryId: categoryMovie.id },
+  });
+  const tvSeriesCount = await Movie.count({
+    where: { CategoryId: categoryTvSeries.id },
+  });
+  console.log(`number of movies:${movieCount}`);
+  console.log(`number of tvSeries:${tvSeriesCount}`);
+} catch (error) {
+  console.error("Unable to sync:", error);
+}
 
 // try {
 //   await sequelize.sync({ alter: true });

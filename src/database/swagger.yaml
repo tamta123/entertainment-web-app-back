@@ -148,3 +148,35 @@ paths:
           description: User has already been verified.Please Login
         "200":
           description: Your account has been successfully verified
+  paths:
+  /bookmark:
+    post:
+      summary: Bookmark a movie
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: integer
+                  description: ID of the user
+                  example: 1
+                movieId:
+                  type: integer
+                  description: ID of the movie
+                  example: 123
+      responses:
+        '200':
+          description: Movie bookmarked successfully
+          content:
+            application/json:
+              example:
+                message: Movie bookmarked successfully
+        '500':
+          description: Failed to bookmark movie
+          content:
+            application/json:
+              example:
+                error: Failed to bookmark movie

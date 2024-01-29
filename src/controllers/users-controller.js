@@ -177,3 +177,20 @@ export const login = async (req, res) => {
     console.log(error);
   }
 };
+
+// Function to bookmark a movie for a user
+export const bookmarkMovie = async (req, res) => {
+  try {
+    const { userId, movieId } = req.body;
+    // Insert a new record into your existing bookmark table
+    await Bookmarks.create({
+      userId,
+      movieId,
+    });
+    console.log("Movie bookmarked successfully");
+    res.status(200).json({ message: "Movie bookmarked successfully" });
+  } catch (error) {
+    console.error("error bookmarking movie", error);
+    res.status(500).json({ error: "failed to bookmark a movie" });
+  }
+};
