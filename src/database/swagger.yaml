@@ -150,8 +150,10 @@ paths:
           description: Your account has been successfully verified
   /bookmarks:
     post:
-      summary: Bookmark a movie for a user
+      tags:
+        - User
       requestBody:
+        description: Bookmark a movie for a user
         required: true
         content:
           application/json:
