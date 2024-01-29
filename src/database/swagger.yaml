@@ -151,8 +151,10 @@ paths:
   paths:
   /bookmark:
     post:
-      summary: Bookmark a movie
+     tags:
+        - User
       requestBody:
+        description: bookmark a movie for a user
         required: true
         content:
           application/json:
@@ -162,11 +164,9 @@ paths:
                 userId:
                   type: integer
                   description: ID of the user
-                  example: 1
                 movieId:
                   type: integer
                   description: ID of the movie
-                  example: 123
       responses:
         '200':
           description: Movie bookmarked successfully
