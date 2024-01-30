@@ -158,13 +158,13 @@ paths:
           required: true
           schema:
             type: integer
-          description: ID of the user
+          description: UserId
         - name: movieId
           in: path
           required: true
           schema:
             type: integer
-          description: ID of the movie
+          description: MovieId
       responses:
         "201":
           description: Movie bookmarked successfully

@@ -13,7 +13,7 @@ usersRouter.get("/users", getAllUsers);
 usersRouter.post("/register", saveUser, addUser);
 usersRouter.get("/users/verify-email/:id/:token", verifyEmail);
 usersRouter.post("/login", login);
-usersRouter.post("/bookmark", bookmarkMovie);
+usersRouter.post("/bookmarks", bookmarkMovie);
 
 // usersRouter.delete("/users/empty", emptyTable);
 
