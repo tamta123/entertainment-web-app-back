@@ -152,21 +152,21 @@ paths:
     post:
       tags:
         - User
-    parameters:
-      - name: userId
-        in: path
-        required: true
-        schema:
-          type: integer
-        description: ID of the user
-      - name: movieId
-        in: path
-        required: true
-        schema:
-          type: integer
-        description: ID of the movie
-    responses:
-      "201":
-        description: Movie bookmarked successfully
-      "500":
-        description: Failed to bookmark movie
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the user
+        - name: movieId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the movie
+      responses:
+        "201":
+          description: Movie bookmarked successfully
+        "500":
+          description: Failed to bookmark movie
