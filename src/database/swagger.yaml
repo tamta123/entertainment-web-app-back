@@ -149,9 +149,9 @@ paths:
         "201":
           description: Your account has been successfully verified
   /bookmarks/{userId}/{movieId}:
-  post:
-    tags:
-      - User
+    post:
+      tags:
+        - User
     parameters:
       - name: userId
         in: path
