@@ -4,6 +4,7 @@ import User from "../models/user.js";
 import Token from "../models/token.js";
 import crypto from "crypto"; // Import the 'crypto' module
 import { sendingMail } from "../mail/index.js";
+import Bookmarks from "../models/user.js";
 
 export const getAllUsers = async (_, res) => {
   try {
@@ -181,7 +182,14 @@ export const login = async (req, res) => {
 // Function to bookmark a movie for a user
 export const bookmarkMovie = async (req, res) => {
   try {
-    const { userId, movieId } = req.body;
+    // Extract user ID from the JWT token in the request headers
+    const token = req.header.authorization.split("")[1];
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decodedToken.id;
+
+    const { movieId } = req.body;
+    const user = await user.findByPk(userId);
+
     // Insert a new record into your existing bookmark table
     await Bookmarks.create({
       userId,
