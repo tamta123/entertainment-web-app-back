@@ -181,6 +181,7 @@ export const login = async (req, res) => {
 
 // Function to bookmark a movie for a user
 export const bookmarkMovie = async (req, res) => {
+  console.log("tamta");
   try {
     // Extract user ID from the JWT token in the request headers
     const token = req.header.authorization.split("")[1];

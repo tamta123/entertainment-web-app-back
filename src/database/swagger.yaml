@@ -148,23 +148,22 @@ paths:
           description: User has already been verified.Please Login
         "201":
           description: Your account has been successfully verified
-  /bookmarks/{userId}/{movieId}:
+  /bookmarks:
     post:
       tags:
         - User
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: integer
-          description: UserId
-        - name: movieId
-          in: path
-          required: true
-          schema:
-            type: integer
-          description: MovieId
+      requestBody:
+        description: bookmark movie for the user
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                userId:
+                  type: string
+                movieId:
+                  type: string
       responses:
         "201":
           description: Movie bookmarked successfully
