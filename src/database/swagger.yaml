@@ -161,9 +161,9 @@ paths:
               type: "object"
               properties:
                 userId:
-                  type: string
+                  type: number
                 movieId:
-                  type: string
+                  type: number
       responses:
         "201":
           description: Movie bookmarked successfully
