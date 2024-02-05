@@ -184,12 +184,17 @@ export const bookmarkMovie = async (req, res) => {
   console.log("tamta");
   try {
     // Extract user ID from the JWT token in the request headers
-    const token = req.header.authorization.split("")[1];
+    const authorizationHeader = req.headers.authorization;
+
+    if (!authorizationHeader) {
+      return res.status(401).json({ error: "Authorization header is missing" });
+    }
+    const token = authorizationHeader.split(" ")[1];
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decodedToken.id;
 
     const { movieId } = req.body;
-    const user = await user.findByPk(userId);
+    const user = await User.findByPk(userId);
 
     // Insert a new record into your existing bookmark table
     await Bookmarks.create({
