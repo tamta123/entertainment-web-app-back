@@ -2,9 +2,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/user.js";
 import Token from "../models/token.js";
-import crypto from "crypto"; // Import the 'crypto' module
 import { sendingMail } from "../mail/index.js";
-import Bookmarks from "../models/user.js";
+import BookMark from "../models/bookMark.js";
 
 export const getAllUsers = async (_, res) => {
   try {
@@ -42,12 +41,21 @@ export const addUser = async (req, res) => {
     //if user details are captured
     //create a token with crypto.js
     if (user) {
-      let setToken = await Token.create({
-        userId: user.id,
-        token: crypto.randomBytes(16).toString("hex"),
+      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+        expiresIn: "1d",
       });
+      console.log("user", JSON.stringify(user, null, 2));
+      console.log("User ID:", user.id);
+      console.log("Token:", token);
+
+      // Save the token in your Token table
+      await Token.create({
+        userId: user.id,
+        token: token,
+      });
+
       //if token is created, send the user an email
-      if (setToken) {
+      if (token) {
         //send email to the user
         //with the function coming from the mailing.js file
         //message containing the user id and the token to help verify their email
@@ -57,15 +65,13 @@ export const addUser = async (req, res) => {
           subject: "Account Verification Link",
           text: `Hello, ${firstName} Please verify your email by
               clicking this link :
-              https://entertainment-web-app-back-production.up.railway.app/api/users/verify-email/${user.id}/${setToken.token} `,
+              https://entertainment-web-app-back-production.up.railway.app/api/users/verify-email/${user.id}/${token} `,
         });
         //if token is not created, send a status of 400
       } else {
         return res.status(400).send("token not created");
       }
-      console.log("user", JSON.stringify(user, null, 2));
-      console.log("User ID:", user.id);
-      console.log("Token:", setToken.token);
+
       //send user details
       return res.status(201).send(user);
     }
@@ -159,6 +165,7 @@ export const login = async (req, res) => {
           let token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
             expiresIn: 1 * 24 * 60 * 60 * 1000,
           });
+
           res.cookie("jwt", token, {
             maxAge: 1 * 24 * 60 * 60,
             httpOnly: true,
@@ -181,30 +188,43 @@ export const login = async (req, res) => {
 
 // Function to bookmark a movie for a user
 export const bookmarkMovie = async (req, res) => {
-  console.log("tamta");
   try {
     // Extract user ID from the JWT token in the request headers
-    const authorizationHeader = req.headers.authorization;
+    const userId = req.body.userId;
+    console.log(userId);
 
-    if (!authorizationHeader) {
-      return res.status(401).json({ error: "Authorization header is missing" });
+    const token = await Token.findOne({ where: { userId } });
+    console.log(token);
+
+    if (!token) {
+      return res.status(401).json({ error: "Token not found for the user" });
     }
-    const token = authorizationHeader.split(" ")[1];
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decodedToken.id;
 
+    const decodedToken = jwt.verify(token.token, process.env.JWT_SECRET);
+
+    // Verify that the decoded token ID matches the user ID from the request
+    if (decodedToken.id !== userId) {
+      return res.status(401).json({ error: "Invalid token for the user" });
+    }
+
+    console.log(decodedToken);
+
+    // Extract the movie ID from the request body
     const { movieId } = req.body;
-    const user = await User.findByPk(userId);
 
-    // Insert a new record into your existing bookmark table
-    await Bookmarks.create({
+    // Create a new bookmark entry for the user and movie
+    await BookMark.create({
       userId,
       movieId,
     });
+
+    console.log(userId);
+    console.log(movieId);
+
     console.log("Movie bookmarked successfully");
-    res.status(200).json({ message: "Movie bookmarked successfully" });
+    return res.status(200).json({ message: "Movie bookmarked successfully" });
   } catch (error) {
     console.error("error bookmarking movie", error);
-    res.status(500).json({ error: "failed to bookmark a movie" });
+    return res.status(500).json({ error: "failed to bookmark a movie" });
   }
 };
