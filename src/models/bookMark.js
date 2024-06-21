@@ -14,8 +14,8 @@ const BookMark = sequelize.define("BookMark", {
 console.log(BookMark === sequelize.models.BookMark);
 
 try {
-  //   await BookMark.sync({ alter: true });
-  //   console.log("The table for the User model was just (re)created!");
+  await BookMark.sync({ alter: true });
+  console.log("The table for the User model was just (re)created!");
   await BookMark.drop();
   console.log("The BookMark table was dropped!");
 } catch (error) {
