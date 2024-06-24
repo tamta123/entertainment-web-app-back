@@ -5,7 +5,7 @@ const HomeCategory = sequelize.define("HomeCategory", {
   name: { type: DataTypes.STRING, allowNull: false },
 });
 
-HomeCategory.bulkCreate([{ name: "trending" }, { name: "recommended4u" }]);
+// HomeCategory.bulkCreate([{ name: "trending" }, { name: "recommended4u" }]);
 
 console.log(HomeCategory === sequelize.models.HomeCategory);
 
