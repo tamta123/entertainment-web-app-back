@@ -74,14 +74,7 @@ export const addUser = async (req, res) => {
       }
 
       //send user details
-      return res.status(201).json({
-        id: user.id,
-        firstName: user.firstName,
-        email: user.email,
-        token: token,
-        photo: user.photo,
-        isVerified: user.isVerified,
-      });
+      return res.status(201).send(user);
     }
   } catch (error) {
     // Handle the error here
