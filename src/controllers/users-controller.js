@@ -25,6 +25,7 @@ export const getAllUsers = async (_, res) => {
 // }
 
 //register new user to the database
+
 export const addUser = async (req, res) => {
   try {
     const { firstName, email, password, photo, isVerified } = req.body;
@@ -73,7 +74,14 @@ export const addUser = async (req, res) => {
       }
 
       //send user details
-      return res.status(201).send(user);
+      return res.status(201).json({
+        id: user.id,
+        firstName: user.firstName,
+        email: user.email,
+        token: token,
+        photo: user.photo,
+        isVerified: user.isVerified,
+      });
     }
   } catch (error) {
     // Handle the error here
