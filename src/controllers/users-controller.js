@@ -73,7 +73,7 @@ export const addUser = async (req, res) => {
       }
       console.log("token დააგენერირა", token);
       //send user details
-      return res.status(201).json({ ...user.toJSON(), token: token });
+      return res.status(201).json({ ...user.toJSON() });
     }
   } catch (error) {
     // Handle the error here
