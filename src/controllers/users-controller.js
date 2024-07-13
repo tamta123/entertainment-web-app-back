@@ -64,8 +64,7 @@ export const addUser = async (req, res) => {
           from: "no-reply@example.com",
           to: `${email}`,
           subject: "Account Verification Link",
-          text: `Hello, ${firstName} Please verify your email by
-              clicking this link :
+          text: `Hello, ${firstName} Please verify your email by clicking this link :
               https://entertainment-web-app-back-production.up.railway.app/api/users/verify-email/${user.id}/${token} `,
         });
         //if token is not created, send a status of 400
@@ -175,7 +174,7 @@ export const login = async (req, res) => {
           console.log("user", JSON.stringify(user, null, 2));
           console.log(token);
           //send user data
-          return res.status(201).send(user);
+          return res.status(201).send(user, token);
         } else {
           return res.status(401).send("user not verified");
         }
