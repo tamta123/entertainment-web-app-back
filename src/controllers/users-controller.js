@@ -71,7 +71,7 @@ export const addUser = async (req, res) => {
       } else {
         return res.status(400).send("token not created");
       }
-
+      console.log("token დააგენერირა", token);
       //send user details
       return res.status(201).json({ ...user.toJSON(), token: token });
     }
@@ -175,7 +175,7 @@ export const login = async (req, res) => {
           console.log("user", JSON.stringify(user, null, 2));
           console.log(token);
           //send user data
-          return res.status(200).json({ ...user.toJSON() });
+          return res.status(200).json({ ...user.toJSON(), token: token });
         } else {
           return res.status(401).send("user not verified");
         }
