@@ -73,7 +73,7 @@ export const addUser = async (req, res) => {
       }
 
       //send user details
-      return res.status(201).send({ user });
+      return res.status(201).json({ ...user.toJSON(), token });
     }
   } catch (error) {
     // Handle the error here
@@ -174,7 +174,7 @@ export const login = async (req, res) => {
           console.log("user", JSON.stringify(user, null, 2));
           console.log(token);
           //send user data
-          return res.status(201).send(user, token);
+          return res.status(200).json({ ...user.toJSON(), token });
         } else {
           return res.status(401).send("user not verified");
         }
