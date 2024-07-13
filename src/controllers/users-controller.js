@@ -73,7 +73,7 @@ export const addUser = async (req, res) => {
       }
 
       //send user details
-      return res.status(201).json({ ...user.toJSON() });
+      return res.status(201).json({ ...user.toJSON(), token: token });
     }
   } catch (error) {
     // Handle the error here
@@ -113,12 +113,10 @@ export const verifyEmail = async (req, res) => {
 
         //if user is already verified, tell the user to login
       } else if (user.isVerified) {
-        return res
-          .status(200)
-          .send({
-            message: "User has been already verified. Please Login",
-            token: token,
-          });
+        return res.status(200).send({
+          message: "User has been already verified. Please Login",
+          token: token,
+        });
 
         //if user is not verified, change the verified to true by updating the field
       } else {
