@@ -74,7 +74,7 @@ export const addUser = async (req, res) => {
       }
 
       //send user details
-      return res.status(201).send(user);
+      return res.status(201).send({ user, token });
     }
   } catch (error) {
     // Handle the error here
@@ -135,9 +135,10 @@ export const verifyEmail = async (req, res) => {
           return res.status(500).send({ msg: err.message });
           //else send status of 200
         } else {
-          return res
-            .status(200)
-            .send("Your account has been successfully verified");
+          return res.status(200).send({
+            message: "Your account has been successfully verified",
+            token: newToken,
+          });
         }
       }
     }
