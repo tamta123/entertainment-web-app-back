@@ -74,7 +74,7 @@ export const addUser = async (req, res) => {
       }
 
       //send user details
-      return res.status(201).send({ user, token });
+      return res.status(201).send({ user });
     }
   } catch (error) {
     // Handle the error here
