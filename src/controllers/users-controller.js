@@ -115,7 +115,10 @@ export const verifyEmail = async (req, res) => {
       } else if (user.isVerified) {
         return res
           .status(200)
-          .send("User has been already verified. Please Login");
+          .send({
+            message: "User has been already verified. Please Login",
+            token: token,
+          });
 
         //if user is not verified, change the verified to true by updating the field
       } else {
