@@ -73,7 +73,7 @@ export const addUser = async (req, res) => {
       }
 
       //send user details
-      return res.status(201).json({ ...user.toJSON(), token });
+      return res.status(201).json({ ...user.toJSON(), token: null });
     }
   } catch (error) {
     // Handle the error here
