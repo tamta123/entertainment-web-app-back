@@ -165,12 +165,14 @@ export const login = async (req, res) => {
         const verified = user.isVerified;
         if (verified) {
           let token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-            expiresIn: 1 * 24 * 60 * 60 * 1000,
+            expiresIn: "1d",
           });
 
           res.cookie("jwt", token, {
-            maxAge: 1 * 24 * 60 * 60,
+            maxAge: 86400000, // 1 day
             httpOnly: true,
+            secure: true, // Ensure cookies are sent only over HTTPS
+            sameSite: "Lax", // or 'Strict' or 'None'
           });
           console.log("user", JSON.stringify(user, null, 2));
           console.log(token);
