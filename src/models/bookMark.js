@@ -2,11 +2,11 @@ import { DataTypes } from "sequelize";
 import sequelize from "../database/database.js";
 
 const BookMark = sequelize.define("BookMark", {
-  MovieId: {
+  movieId: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  UserId: {
+  userId: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
