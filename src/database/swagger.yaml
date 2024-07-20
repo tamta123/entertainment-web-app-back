@@ -167,7 +167,9 @@ paths:
                 movieId:
                   type: number
       responses:
-        "201":
+        "200":
           description: Movie bookmarked successfully
+        "401":
+          description: Unauthorized
         "500":
           description: Failed to bookmark movie
