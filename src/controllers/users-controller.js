@@ -193,23 +193,24 @@ export const bookmarkMovie = async (req, res) => {
   try {
     // Extract user ID from the JWT token in the request headers
     const userId = req.body.userId;
-    console.log(userId);
-
+    console.log("Received userId:", userId);
+    console.log("Received movieId:", movieId);
     const token = await Token.findOne({ where: { userId } });
     console.log(token);
 
     if (!token) {
+      console.log("Token not found for the user");
       return res.status(401).json({ error: "Token not found for the user" });
     }
+    console.log("Token found:", token);
 
     const decodedToken = jwt.verify(token.token, process.env.JWT_SECRET);
-
     // Verify that the decoded token ID matches the user ID from the request
     if (decodedToken.id !== userId) {
+      console.log("Invalid token for the user");
       return res.status(401).json({ error: "Invalid token for the user" });
     }
-
-    console.log(decodedToken);
+    console.log("Decoded token:", decodedToken);
 
     // Extract the movie ID from the request body
     const { movieId } = req.body;
@@ -219,9 +220,6 @@ export const bookmarkMovie = async (req, res) => {
       userId,
       movieId,
     });
-
-    console.log(userId);
-    console.log(movieId);
 
     console.log("Movie bookmarked successfully");
     return res.status(200).json({ message: "Movie bookmarked successfully" });
