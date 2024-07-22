@@ -194,7 +194,11 @@ export const login = async (req, res) => {
 export const bookmarkMovie = async (req, res) => {
   try {
     // Extract user ID from the JWT token in the request headers
+    // Extract the movie ID from the request body
+
     const userId = req.body.userId;
+    const { movieId } = req.body;
+
     console.log("Received userId:", userId);
     console.log("Received movieId:", movieId);
     const token = await Token.findOne({ where: { userId } });
@@ -213,9 +217,6 @@ export const bookmarkMovie = async (req, res) => {
       return res.status(401).json({ error: "Invalid token for the user" });
     }
     console.log("Decoded token:", decodedToken);
-
-    // Extract the movie ID from the request body
-    const { movieId } = req.body;
 
     // Create a new bookmark entry for the user and movie
     await BookMark.create({
