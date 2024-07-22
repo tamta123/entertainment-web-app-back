@@ -14,6 +14,8 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+security:
+  - bearerAuth: []
 paths:
   /register:
     post:
@@ -154,6 +156,8 @@ paths:
     post:
       tags:
         - User
+      security:
+        - bearerAuth: []
       requestBody:
         description: bookmark movie for the user
         required: true
@@ -171,5 +175,13 @@ paths:
           description: Movie bookmarked successfully
         "401":
           description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Token not found for the user or Invalid token for the user
         "500":
           description: Failed to bookmark movie
