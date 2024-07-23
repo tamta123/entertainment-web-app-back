@@ -1,14 +1,21 @@
 import jwt from "jsonwebtoken";
 
 export const checkToken = (req, res, next) => {
-  const token = req.headers["authorization"]?.split(" ")[1];
+  const authHeader = req.headers["authorization"];
+  if (!authHeader) {
+    console.log("Authorization header missing");
+    return res.status(401).json({ message: "Unauthorized" });
+  }
 
+  const token = authHeader.split(" ")[1];
   if (!token) {
+    console.log("Token missing in authorization header");
     return res.status(401).json({ message: "Unauthorized" });
   }
 
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
+      console.log("Token verification failed:", err);
       return res.status(401).json({ message: "Unauthorized" });
     }
 
@@ -24,6 +31,7 @@ export const checkToken = (req, res, next) => {
         { expiresIn: "1h" }
       );
       res.setHeader("x-new-token", newToken);
+      console.log("New token issued:", newToken);
     }
 
     req.user = decoded;
