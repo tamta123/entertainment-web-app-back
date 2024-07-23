@@ -21,6 +21,7 @@ export const checkToken = (req, res, next) => {
         secure: true,
         sameSite: "Lax",
       });
+      res.setHeader("x-new-token", newToken); // Set new token in headers
       req.user = jwt.verify(newToken, process.env.JWT_SECRET);
       next();
     } else {
