@@ -5,6 +5,7 @@ import usersRouter from "./routes/users-routes.js";
 import swaggerMiddleware from "./middlewares/swagger-middleware.js";
 import moviesRouter from "./routes/movies-routes.js";
 import categoriesRouter from "./routes/categories-routes.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
@@ -17,6 +18,7 @@ async function init() {
 }
 function serverStart() {
   app.use(bodyParser.json());
+  app.use(cookieParser()); // Make sure to use cookie-parser middleware
   app.use(cors());
   app.use("/api", usersRouter, moviesRouter, categoriesRouter);
   app.use("/thumbnails", express.static("public/thumbnails"));
