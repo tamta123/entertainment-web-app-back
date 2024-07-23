@@ -1,40 +1,29 @@
 import jwt from "jsonwebtoken";
 
 export const checkToken = (req, res, next) => {
-  const authHeader = req.headers["authorization"];
-  if (!authHeader) {
-    console.log("Authorization header missing");
-    return res.status(401).json({ message: "Unauthorized" });
-  }
+  try {
+    const token = req.headers["authorization"]?.split("")[1];
 
-  const token = authHeader.split(" ")[1];
-  if (!token) {
-    console.log("Token missing in authorization header");
-    return res.status(401).json({ message: "Unauthorized" });
-  }
-
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    if (err) {
-      console.log("Token verification failed:", err);
-      return res.status(401).json({ message: "Unauthorized" });
+    if (!token) {
+      return res.status(401).json({ message: "Authorized" });
     }
 
-    // Check if token is close to expiration (e.g., within 5 minutes)
-    const now = Date.now() / 1000; // Current time in seconds
-    const timeLeft = decoded.exp - now;
-
-    if (timeLeft < 300) {
-      // Less than 5 minutes
-      const newToken = jwt.sign(
-        { id: decoded.id, email: decoded.email },
-        process.env.JWT_SECRET,
-        { expiresIn: "1h" }
-      );
-      res.setHeader("x-new-token", newToken);
-      console.log("New token issued:", newToken);
-    }
-
-    req.user = decoded;
     next();
-  });
+  } catch (error) {
+    if (error.name === "TokenExpiredError") {
+      const newToken = jwt.sign({ id: req.user.id }, process.env.JWT_SECRET, {
+        expiresIn: "7d",
+      });
+      res.cookie("jwt", newToken, {
+        maxAge: 604800000, // 7 days
+        httpOnly: true,
+        secure: true,
+        sameSite: "Lax",
+      });
+      req.user = jwt.verify(newToken, process.env.JWT_SECRET);
+      next();
+    } else {
+      return res.status(401).send("Invalid token.");
+    }
+  }
 };
