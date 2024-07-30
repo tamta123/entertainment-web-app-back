@@ -152,7 +152,10 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     //find a user by their email
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({
+      where: { email },
+      include: [{ model: bookmarkMovie }],
+    });
     // console.log = user;
     //if user email is found, compare password with bcrypt
     if (user) {
