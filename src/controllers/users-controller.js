@@ -154,7 +154,7 @@ export const login = async (req, res) => {
     //find a user by their email
     const user = await User.findOne({
       where: { email },
-      include: [{ model: bookmarkMovie }],
+      include: [{ model: BookMark }],
     });
     // console.log = user;
     //if user email is found, compare password with bcrypt
@@ -183,7 +183,7 @@ export const login = async (req, res) => {
           return res.status(200).json({
             ...user.toJSON(),
             token: token,
-            bookmarks: user.bookmarkMovie,
+            bookmarks: user.BookMark,
           });
         } else {
           return res.status(401).send("user not verified");
