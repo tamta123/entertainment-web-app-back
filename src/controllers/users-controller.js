@@ -4,6 +4,7 @@ import User from "../models/user.js";
 import Token from "../models/token.js";
 import { sendingMail } from "../mail/index.js";
 import BookMark from "../models/bookMark.js";
+import Movie from "../models/movie.js";
 
 export const getAllUsers = async (_, res) => {
   try {
@@ -154,7 +155,7 @@ export const login = async (req, res) => {
     //find a user by their email
     const user = await User.findOne({
       where: { email },
-      include: [{ model: BookMark }],
+      include: [{ model: Movie, through: { model: "Bookmarks" } }],
     });
     // console.log = user;
     //if user email is found, compare password with bcrypt
@@ -183,7 +184,7 @@ export const login = async (req, res) => {
           return res.status(200).json({
             ...user.toJSON(),
             token: token,
-            bookmarks: user.BookMark,
+            bookmarks: user.Movies,
           });
         } else {
           return res.status(401).send("user not verified");
