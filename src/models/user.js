@@ -44,11 +44,11 @@ console.log(User === sequelize.models.User);
 
 Movie.belongsToMany(User, {
   through: { model: "Bookmarks", unique: false },
-  foreignKey: "MovieId",
+  foreignKey: "movieId",
 });
 User.belongsToMany(Movie, {
   through: { model: "Bookmarks", unique: false },
-  foreignKey: "UserId",
+  foreignKey: "userId",
 });
 
 try {
