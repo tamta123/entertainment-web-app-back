@@ -73,8 +73,36 @@ paths:
                 password:
                   type: string
       responses:
-        "201":
-          description: user login successfully
+        "200":
+          description: "Successful login"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  firstName:
+                    type: string
+                  email:
+                    type: string
+                  token:
+                    type: string
+                  bookmarks:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        title:
+                          type: string
+                        description:
+                          type: string
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Server error"
   /addMovie:
     post:
       tags:
