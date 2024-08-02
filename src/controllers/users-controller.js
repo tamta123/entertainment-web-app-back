@@ -198,6 +198,38 @@ export const login = async (req, res) => {
   }
 };
 
+export const fetchUser = async (req, res) => {
+  try {
+    const token = req.headers.authorization.split("")[1];
+    if (!token) {
+      return res.status(401).json({ message: "no token found" });
+    }
+    // Verify the token
+    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+      if (err) {
+        return res.status(401).json({ message: "Token is not valid" });
+      }
+      // Find the user by their ID decoded from the token
+      const user = await User.findOne({
+        where: { id: decoded.id },
+        include: [
+          { model: Movie, through: { model: BookMark, attributes: [] } },
+        ],
+      });
+      if (!user) {
+        return res.status(404).json({ message: "user not found" });
+      }
+      return res.status(200).json({
+        ...user.toJSON(),
+        bookmarks: user.Movies,
+      });
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 // Function to bookmark a movie for a user
 export const bookmarkMovie = async (req, res) => {
   try {

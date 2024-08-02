@@ -103,6 +103,59 @@ paths:
           description: "Unauthorized"
         "500":
           description: "Server error"
+  /users/me:
+    get:
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: "Successful user info retrieval"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  firstName:
+                    type: string
+                  email:
+                    type: string
+                  bookmarks:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        title:
+                          type: string
+                        description:
+                          type: string
+        "401":
+          description: "Unauthorized"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Token is not valid
+        "404":
+          description: "User not found"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User not found
+        "500":
+          description: "Server error"
   /addMovie:
     post:
       tags:
