@@ -5,6 +5,7 @@ import Token from "../models/token.js";
 import { sendingMail } from "../mail/index.js";
 import BookMark from "../models/bookMark.js";
 import Movie from "../models/movie.js";
+import { where } from "sequelize";
 
 export const getAllUsers = async (_, res) => {
   try {
@@ -200,37 +201,18 @@ export const login = async (req, res) => {
 
 export const fetchUser = async (req, res) => {
   try {
-    const authHeader = req.headers.authorization;
-    if (!authHeader) {
-      return res.status(401).json({ message: "No authorization header" });
-    }
-    const token = authHeader.split("")[1];
-    if (!token) {
-      return res.status(401).json({ message: "no token found" });
-    }
-    // Verify the token
-    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
-      if (err) {
-        console.log("Token verification error:", err);
-        return res.status(401).json({ message: "Token is not valid" });
-      }
-      // Find the user by their ID decoded from the token
-      const user = await User.findOne({
-        where: { id: decoded.id },
-        include: [
-          { model: Movie, through: { model: BookMark, attributes: [] } },
-        ],
-      });
-      if (!user) {
-        return res.status(404).json({ message: "user not found" });
-      }
-      return res.status(200).json({
-        ...user.toJSON(),
-        bookmarks: user.Movies,
-      });
+    const userId = req.user.id; // Access user ID from req.user
+    // Fetch user details from the database
+    const user = await findOne.User({
+      where: { id: userId },
+      include: [{ model: Movie, through: { model: BookMark, attributes: [] } }],
     });
+    if (!user) {
+      return res.status(404).json({ message: "user not found" });
+    }
+    return res.status(200).json({ ...user.toJSON(), bookmarks: user.Movies });
   } catch (error) {
-    console.error("Server error:", error);
+    console.error("Error fetching user:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
