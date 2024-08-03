@@ -201,6 +201,9 @@ export const login = async (req, res) => {
 
 export const fetchUser = async (req, res) => {
   try {
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ message: "No user information found" });
+    }
     const userId = req.user.id; // Access user ID from req.user
     // Fetch user details from the database
     const user = await findOne.User({
