@@ -200,13 +200,18 @@ export const login = async (req, res) => {
 
 export const fetchUser = async (req, res) => {
   try {
-    const token = req.headers.authorization.split("")[1];
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ message: "No authorization header" });
+    }
+    const token = authHeader.split("")[1];
     if (!token) {
       return res.status(401).json({ message: "no token found" });
     }
     // Verify the token
     jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
       if (err) {
+        console.log("Token verification error:", err);
         return res.status(401).json({ message: "Token is not valid" });
       }
       // Find the user by their ID decoded from the token
@@ -225,7 +230,7 @@ export const fetchUser = async (req, res) => {
       });
     });
   } catch (error) {
-    console.log(error);
+    console.error("Server error:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
