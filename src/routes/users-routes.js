@@ -16,7 +16,7 @@ usersRouter.post("/register", saveUser, addUser);
 usersRouter.get("/users/verify-email/:id/:token", verifyEmail);
 usersRouter.post("/login", login);
 usersRouter.post("/bookmarks", checkToken, bookmarkMovie);
-usersRouter.get("/users/me", checkToken, fetchUser);
+usersRouter.get("/users/me", fetchUser);
 
 // usersRouter.delete("/users/empty", emptyTable);
 
