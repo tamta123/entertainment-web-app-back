@@ -206,7 +206,7 @@ export const fetchUser = async (req, res) => {
     }
     const userId = req.user.id; // Access user ID from req.user
     // Fetch user details from the database
-    const user = await findOne.User({
+    const user = await User.findOne({
       where: { id: userId },
       include: [{ model: Movie, through: { model: BookMark, attributes: [] } }],
     });
