@@ -22,8 +22,9 @@ export const checkToken = (req, res, next) => {
   } catch (error) {
     console.error("Token verification error:", error.message);
     if (error.name === "TokenExpiredError") {
-      const newToken = jwt.sign({ id: req.user.id }, process.env.JWT_SECRET, {
-        expiresIn: "7d",
+      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+        algorithm: "HS256",
+        expiresIn: "1d",
       });
       // Send new token in response headers
       res.setHeader("Authorization", `Bearer ${newToken}`);

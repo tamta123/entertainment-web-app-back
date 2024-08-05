@@ -169,6 +169,7 @@ export const login = async (req, res) => {
         const verified = user.isVerified;
         if (verified) {
           let token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+            algorithm: "HS256",
             expiresIn: "1d",
           });
 
