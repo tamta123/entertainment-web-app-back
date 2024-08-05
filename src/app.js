@@ -19,7 +19,11 @@ async function init() {
 function serverStart() {
   app.use(bodyParser.json());
   app.use(cookieParser()); // Make sure to use cookie-parser middleware
-  app.use(cors());
+  app.use(
+    cors({
+      credentials: true, // Allow credentials (cookies, authorization headers)
+    })
+  );
   app.use("/api", usersRouter, moviesRouter, categoriesRouter);
   app.use("/thumbnails", express.static("public/thumbnails"));
   app.use("/", ...swaggerMiddleware);
