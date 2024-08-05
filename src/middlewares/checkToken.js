@@ -11,7 +11,7 @@ export const checkToken = (req, res, next) => {
   }
 
   // Extract the token from the header
-  const token = authHeader.split(" ")[1];
+  const token = authHeader;
 
   if (!token) {
     console.log("No token provided");
