@@ -247,26 +247,30 @@ paths:
         - User
       security:
         - bearerAuth: []
+      requestBody:
+        description: bookmark movie for the user
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                userId:
+                  type: number
+                movieId:
+                  type: number
       responses:
         "200":
-          description: "Successful bookmark creation"
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: "Movie bookmarked successfully"
+          description: Movie bookmarked successfully
         "401":
-          description: "Unauthorized"
+          description: Unauthorized
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  message:
+                  error:
                     type: string
-                    example: "Invalid token."
+                    example: Token not found for the user or Invalid token for the user
         "500":
-          description: "Server error
+          description: Failed to bookmark movie
