@@ -158,7 +158,6 @@ export const login = async (req, res) => {
       where: { email },
       include: [{ model: Movie, through: { model: BookMark, attributes: [] } }],
     });
-    // console.log = user;
     //if user email is found, compare password with bcrypt
     if (user) {
       const isSame = await bcrypt.compare(password, user.password);
@@ -173,12 +172,7 @@ export const login = async (req, res) => {
             expiresIn: "1d",
           });
 
-          res.cookie("jwt", token, {
-            maxAge: 86400000, // 1 day
-            httpOnly: true,
-            secure: true, // Ensure cookies are sent only over HTTPS
-            sameSite: "Lax", // or 'Strict' or 'None'
-          });
+          res.setHeader("Authorization", `Bearer ${token}`);
           console.log("user", JSON.stringify(user, null, 2));
           console.log(token);
           //send user data
@@ -232,24 +226,6 @@ export const bookmarkMovie = async (req, res) => {
     console.log("Received userId:", userId);
     console.log("Received movieId:", movieId);
 
-    // const token = await Token.findOne({ where: { userId } });
-    // console.log(token);
-
-    // if (!token) {
-    //   console.log("Token not found for the user");
-    //   return res.status(401).json({ error: "Token not found for the user" });
-    // }
-    // console.log("Token found:", token);
-
-    // const decodedToken = jwt.verify(token.token, process.env.JWT_SECRET);
-    // // Verify that the decoded token ID matches the user ID from the request
-    // if (decodedToken.id !== userId) {
-    //   console.log("Invalid token for the user");
-    //   return res.status(401).json({ error: "Invalid token for the user" });
-    // }
-    // console.log("Decoded token:", decodedToken);
-
-    // Create a new bookmark entry for the user and movie
     await BookMark.create({
       userId,
       movieId,

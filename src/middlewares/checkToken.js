@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
 
 export const checkToken = (req, res, next) => {
-  const token = req.cookies.jwt;
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split("")[1];
 
   if (!token) {
     return res.status(401).send("Access denied. No token provided.");
@@ -15,13 +16,8 @@ export const checkToken = (req, res, next) => {
       const newToken = jwt.sign({ id: req.user.id }, process.env.JWT_SECRET, {
         expiresIn: "7d",
       });
-      res.cookie("jwt", newToken, {
-        maxAge: 604800000, // 7 days
-        httpOnly: true,
-        secure: true,
-        sameSite: "Lax",
-      });
-      res.setHeader("x-new-token", newToken); // Set new token in headers
+      // Send new token in response headers
+      res.setHeader("Authorization", `Bearer ${newToken}`);
       req.user = jwt.verify(newToken, process.env.JWT_SECRET);
       next();
     } else {
