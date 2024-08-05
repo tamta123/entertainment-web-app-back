@@ -22,7 +22,7 @@ export const checkToken = (req, res, next) => {
   } catch (error) {
     console.error("Token verification error:", error.message);
     if (error.name === "TokenExpiredError") {
-      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+      const newToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
         algorithm: "HS256",
         expiresIn: "1d",
       });
