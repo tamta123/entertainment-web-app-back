@@ -11,7 +11,7 @@ export const checkToken = (req, res, next) => {
   }
 
   // Extract the token
-  const token = `Bearer ${authHeader}`;
+  const token = authHeader;
   if (!token) {
     console.log("No token provided");
     return res.status(401).send("Access denied. No token provided.");

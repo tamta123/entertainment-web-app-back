@@ -173,13 +173,18 @@ export const login = async (req, res) => {
             expiresIn: "1d",
           });
 
-          res.setHeader("Authorization", `Bearer ${token}`);
+          // Prepend "Bearer " to the token for the response
+          const bearerToken = `Bearer ${token}`;
+
+          // Set the Authorization header and send user data
+          res.setHeader("Authorization", bearerToken);
+
           console.log("user", JSON.stringify(user, null, 2));
-          console.log(token);
-          //send user data
+          console.log(bearerToken);
+
           return res.status(200).json({
             ...user.toJSON(),
-            token: `${token}`,
+            token: bearerToken, // Include "Bearer " prefix in the response token
             bookmarks: user.Movies,
           });
         } else {
