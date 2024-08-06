@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 export const checkToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
-  // Check if the Authorization header is present and properly formatted
+  // Check if Authorization header is present and starts with "Bearer "
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     console.log("No token provided or wrong header format");
     return res
@@ -10,8 +10,8 @@ export const checkToken = (req, res, next) => {
       .send("Access denied. No token provided or wrong header format.");
   }
 
-  // Extract the token from the header
-  const token = authHeader;
+  // Extract the token by splitting the header
+  const token = authHeader.split(" ")[1].replace(/"/g, ""); // Remove any extra quotes
 
   if (!token) {
     console.log("No token provided");
