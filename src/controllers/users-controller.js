@@ -179,7 +179,7 @@ export const login = async (req, res) => {
           //send user data
           return res.status(200).json({
             ...user.toJSON(),
-            token: `Bearer ${token}`,
+            token: `${token}`,
             bookmarks: user.Movies,
           });
         } else {

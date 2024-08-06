@@ -10,9 +10,8 @@ export const checkToken = (req, res, next) => {
       .send("Access denied. No token provided or wrong header format.");
   }
 
-  // Extract the token by splitting the header
-  const token = authHeader.split(" ")[1].replace(/"/g, ""); // Remove any extra quotes
-
+  // Extract the token
+  const token = authHeader;
   if (!token) {
     console.log("No token provided");
     return res.status(401).send("Access denied. No token provided.");
