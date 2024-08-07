@@ -163,7 +163,7 @@ export const login = async (req, res) => {
       const isSame = await bcrypt.compare(password, user.password);
       console.log("password", user.password);
       //if password is the same, check if the user is verified,
-      //if verified, generate a token and use it to set cookies for the user
+      //if verified, generate a token
       if (isSame) {
         //check if they are verified
         const verified = user.isVerified;
@@ -173,18 +173,15 @@ export const login = async (req, res) => {
             expiresIn: "1d",
           });
 
-          // Prepend "Bearer " to the token for the response
-          const bearerToken = `Bearer ${token}`;
-
           // Set the Authorization header and send user data
-          res.setHeader("Authorization", bearerToken);
+          res.setHeader("Authorization", token);
 
           console.log("user", JSON.stringify(user, null, 2));
-          console.log(bearerToken);
+          console.log(token);
 
           return res.status(200).json({
             ...user.toJSON(),
-            token: bearerToken, // Include "Bearer " prefix in the response token
+            token: token,
             bookmarks: user.Movies,
           });
         } else {
