@@ -173,6 +173,7 @@ export const login = async (req, res) => {
             expiresIn: "1d",
           });
 
+          console.log("jwt", process.env.JWT_SECRET);
           // Set the Authorization header and send user data
           res.setHeader("Authorization", token);
 
