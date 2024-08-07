@@ -19,6 +19,14 @@ export const checkToken = (req, res, next) => {
   console.log("Received token:", token);
   console.log("JWT_SECRET:", process.env.JWT_SECRET);
 
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      console.error("Token verification failed:", err.message);
+    } else {
+      console.log("Decoded payload:", decoded);
+    }
+  });
+
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded; // Add decoded token data to the request object
