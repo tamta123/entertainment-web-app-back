@@ -246,6 +246,8 @@ export const bookmarkMovie = async (req, res) => {
       where: { userId },
       include: [{ model: Movie, attributes: [] }], // Adjust attributes as needed
     });
+
+    console.log("bookmarks....", bookmarks);
     // Send the updated list of bookmarks in the response
     return res
       .status(200)
