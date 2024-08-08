@@ -245,7 +245,7 @@ export const bookmarkMovie = async (req, res) => {
 export const deleteBookmarkedMovie = async (req, res) => {
   try {
     const userID = req.user.id;
-    const { movieId } = req.body;
+    const { movieId } = req.params;
 
     console.log("userId", userID);
     console.log("movieId", movieId);
