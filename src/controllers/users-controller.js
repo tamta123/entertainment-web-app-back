@@ -247,7 +247,7 @@ export const deleteBookmarkedMovie = async (req, res) => {
     const userId = req.user.id;
     const { movieId } = req.params;
 
-    console.log("userId", userID);
+    console.log("userId", userId);
     console.log("movieId", movieId);
 
     const bookMark = await BookMark.findOne({ where: { userId, movieId } });
