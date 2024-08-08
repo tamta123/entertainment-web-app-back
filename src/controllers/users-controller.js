@@ -241,3 +241,19 @@ export const bookmarkMovie = async (req, res) => {
     return res.status(500).json({ error: "failed to bookmark a movie" });
   }
 };
+
+export const deleteBookmarkedMovie = async (req, res) => {
+  try {
+    const userID = req.user.id;
+    const { movieId } = req.body;
+    const bookMark = await BookMark.findOne({ where: { userID, movieId } });
+    if (!bookMark) {
+      return res.status(404).json({ message: "bookmark not found" });
+    }
+    await bookMark.destroy();
+    return res.status(200).json({ message: "bookmark removed successfully" });
+  } catch (error) {
+    console.error("Error deleting bookmark", error);
+    return res.status(500).json({ error: "Failed to remove bookmark" });
+  }
+};
