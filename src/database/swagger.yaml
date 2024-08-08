@@ -248,7 +248,7 @@ paths:
       security:
         - bearerAuth: []
       requestBody:
-        description: bookmark movie for the user
+        description: Bookmark movie for the user
         required: true
         content:
           application/json:
@@ -261,7 +261,36 @@ paths:
                   type: number
       responses:
         "200":
-          description: Movie bookmarked successfully
+          description: Movie bookmarked successfully and returns updated bookmarks list
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: string
+                    example: Movie bookmarked successfully
+                  bookmarks:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                        title:
+                          type: string
+                        posterSmall:
+                          type: string
+                        posterMedium:
+                          type: string
+                        posterLarge:
+                          type: string
+                      required:
+                        - id
+                        - title
+                        - posterSmall
+                        - posterMedium
+                        - posterLarge
         "401":
           description: Unauthorized
           content:
@@ -274,6 +303,14 @@ paths:
                     example: Token not found for the user or Invalid token for the user
         "500":
           description: Failed to bookmark movie
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Failed to bookmark movie
   /bookmarks/{movieId}:
     delete:
       tags:
