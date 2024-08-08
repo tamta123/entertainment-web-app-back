@@ -275,40 +275,40 @@ paths:
         "500":
           description: Failed to bookmark movie
   /bookmarks/{movieId}:
-  delete:
-    tags:
-      - User
-    security:
-      - bearerAuth: []
-    parameters:
-      - name: movieId
-        in: path
-        required: true
-        description: The ID of the movie to be removed from bookmarks
-        schema:
-          type: integer
-    responses:
-      "200":
-        description: Movie removed from bookmarks successfully
-      "401":
-        description: Unauthorized
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                error:
-                  type: string
-                  example: Token not found for the user or Invalid token for the user
-      "404":
-        description: Bookmark not found
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                error:
-                  type: string
-                  example: Bookmark not found
-      "500":
-        description: Failed to remove bookmark
+    delete:
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: movieId
+          in: path
+          required: true
+          description: The ID of the movie to be removed from bookmarks
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Movie removed from bookmarks successfully
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Token not found for the user or Invalid token for the user
+        "404":
+          description: Bookmark not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Bookmark not found
+        "500":
+          description: Failed to remove bookmark
