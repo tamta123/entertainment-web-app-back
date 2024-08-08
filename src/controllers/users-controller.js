@@ -246,6 +246,10 @@ export const deleteBookmarkedMovie = async (req, res) => {
   try {
     const userID = req.user.id;
     const { movieId } = req.body;
+
+    console.log("userId", userID);
+    console.log("movieId", movieId);
+
     const bookMark = await BookMark.findOne({ where: { userID, movieId } });
     if (!bookMark) {
       return res.status(404).json({ message: "bookmark not found" });
