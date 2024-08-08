@@ -229,6 +229,14 @@ export const bookmarkMovie = async (req, res) => {
     console.log("Received userId:", userId);
     console.log("Received movieId:", movieId);
 
+    const existingBookmark = await BookMark.findOne({
+      where: { userId, movieId },
+    });
+
+    if (existingBookmark) {
+      return res.status(400).json({ message: "Movie already bookmarked" });
+    }
+
     await BookMark.create({
       userId,
       movieId,
