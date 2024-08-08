@@ -241,9 +241,15 @@ export const bookmarkMovie = async (req, res) => {
       userId,
       movieId,
     });
-
-    console.log("Movie bookmarked successfully");
-    return res.status(200).json({ message: "Movie bookmarked successfully" });
+    // Fetch the updated list of bookmarks for the user
+    const bookmarks = await BookMark.findAll({
+      where: { userId },
+      include: [{ model: Movie, attributes: [] }], // Adjust attributes as needed
+    });
+    // Send the updated list of bookmarks in the response
+    return res
+      .status(200)
+      .json({ message: "Movie bookmarked successfully", bookmarks });
   } catch (error) {
     console.error("error bookmarking movie", error);
     return res.status(500).json({ error: "failed to bookmark a movie" });
