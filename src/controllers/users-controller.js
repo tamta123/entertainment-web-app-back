@@ -196,6 +196,19 @@ export const login = async (req, res) => {
   }
 };
 
+//ვაკეთებ ახალ რექუესთს,
+export const getBookmarks = async(req, res) {
+
+  const userId = req.body.userId;
+  const bookmarks = await User.findOne({
+    where: { id: userId },
+    include: [{ model: Movie, through: { model: BookMark, attributes: [] } }],
+  });
+
+  res.status(200).json(bookmarks);
+}
+
+
 export const fetchUser = async (req, res) => {
   try {
     if (!req.user || !req.user.id) {

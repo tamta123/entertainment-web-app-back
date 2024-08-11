@@ -349,3 +349,91 @@ paths:
                     example: Bookmark not found
         "500":
           description: Failed to remove bookmark
+  /users/bookmarks:
+    get:
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Authorization
+          in: header
+          description: JWT token for authentication
+          required: true
+          schema:
+            type: string
+            example: "Bearer <token>"
+      requestBody:
+        description: Retrieve bookmarks for the user
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: integer
+                  description: ID of the user whose bookmarks are to be retrieved
+                  example: 1
+      responses:
+        "200":
+          description: Successfully retrieved the list of bookmarks
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: ID of the user
+                  bookmarks:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: ID of the bookmark
+                          example: 123
+                        title:
+                          type: string
+                          description: Title of the bookmarked movie
+                          example: "Inception"
+                        posterSmall:
+                          type: string
+                          description: URL of the small poster image
+                          example: "https://example.com/small.jpg"
+                        posterMedium:
+                          type: string
+                          description: URL of the medium poster image
+                          example: "https://example.com/medium.jpg"
+                        posterLarge:
+                          type: string
+                          description: URL of the large poster image
+                          example: "https://example.com/large.jpg"
+                      required:
+                        - id
+                        - title
+                        - posterSmall
+                        - posterMedium
+                        - posterLarge
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Token not found for the user or Invalid token for the user"
+        "500":
+          description: Failed to retrieve bookmarks
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Failed to retrieve bookmarks"

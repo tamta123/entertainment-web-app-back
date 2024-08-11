@@ -5,6 +5,7 @@ import {
   deleteBookmarkedMovie,
   fetchUser,
   getAllUsers,
+  getBookmarks,
   login,
   verifyEmail,
 } from "../controllers/users-controller.js";
@@ -18,6 +19,7 @@ usersRouter.get("/users/verify-email/:id/:token", verifyEmail);
 usersRouter.post("/login", login);
 usersRouter.post("/bookmarks", checkToken, bookmarkMovie);
 usersRouter.get("/users/me", checkToken, fetchUser);
+usersRouter.get("/users/bookmarks", checkToken, getBookmarks);
 usersRouter.delete("/bookmarks/:movieId", checkToken, deleteBookmarkedMovie);
 
 // usersRouter.delete("/users/empty", emptyTable);
