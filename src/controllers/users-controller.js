@@ -156,7 +156,7 @@ export const login = async (req, res) => {
     //find a user by their email
     const user = await User.findOne({
       where: { email },
-      include: [{ model: Movie, through: { model: BookMark, attributes: [] } }],
+      // include: [{ model: Movie, through: { model: BookMark, attributes: [] } }],
     });
     //if user email is found, compare password with bcrypt
     if (user) {
@@ -182,7 +182,7 @@ export const login = async (req, res) => {
           return res.status(200).json({
             ...user.toJSON(),
             token: token,
-            bookmarks: user.Movies,
+            // bookmarks: user.Movies,
           });
         } else {
           return res.status(401).send("user not verified");
@@ -196,18 +196,23 @@ export const login = async (req, res) => {
   }
 };
 
-//ვაკეთებ ახალ რექუესთს,
-export const getBookmarks = async(req, res) {
-
-  const userId = req.body.userId;
-  const bookmarks = await User.findOne({
-    where: { id: userId },
-    include: [{ model: Movie, through: { model: BookMark, attributes: [] } }],
-  });
-
-  res.status(200).json(bookmarks);
-}
-
+export const getBookmarks = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const userWithBookmarks = await User.findOne({
+      where: { id: userId },
+      include: [{ model: Movie, through: { model: BookMark, attributes: [] } }],
+    });
+    if (!userWithBookmarks) {
+      return res.status(400).json({ error: "User not found" });
+    }
+    const bookmarks = userWithBookmarks.Movies; // Sequelize default naming
+    res.status(200).json(bookmarks);
+  } catch (error) {
+    console.error("Error fetching bookmarks", error);
+    res.status(500).json({ error: "Failed to fetch bookmarks" });
+  }
+};
 
 export const fetchUser = async (req, res) => {
   try {
