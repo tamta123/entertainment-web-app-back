@@ -45,10 +45,12 @@ console.log(User === sequelize.models.User);
 Movie.belongsToMany(User, {
   through: { model: "Bookmarks", unique: false },
   foreignKey: "movieId",
+  as: "bookmarkedByUsers", // Alias used in associations
 });
 User.belongsToMany(Movie, {
   through: { model: "Bookmarks", unique: false },
   foreignKey: "userId",
+  as: "bookmarkedMovies", // Alias used in associations
 });
 
 try {
