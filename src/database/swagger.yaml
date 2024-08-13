@@ -355,13 +355,6 @@ paths:
         - User
       security:
         - bearerAuth: []
-      parameters:
-        - name: userId
-          in: query
-          description: ID of the user to retrieve bookmarks for
-          required: true
-          schema:
-            type: integer
       responses:
         "200":
           description: Successfully retrieved bookmarks for the user
@@ -388,6 +381,8 @@ paths:
                     - posterSmall
                     - posterMedium
                     - posterLarge
+                    - rating
+                    - year
         "401":
           description: Unauthorized
           content:

@@ -212,7 +212,7 @@ export const getBookmarks = async (req, res) => {
     if (!userWithBookmarks) {
       return res.status(400).json({ error: "User not found" });
     }
-    const bookmarks = userWithBookmarks.bookmarkedMovies; // Sequelize default naming
+    const bookmarks = userWithBookmarks.bookmarkedMovies; // Use correct alias
     res.status(200).json(bookmarks);
   } catch (error) {
     console.error("Error fetching bookmarks", error);
