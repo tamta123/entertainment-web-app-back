@@ -244,7 +244,7 @@ export const bookmarkMovie = async (req, res) => {
     // Fetch the updated list of bookmarks for the user
     const bookmarks = await BookMark.findAll({
       where: { userId },
-      include: ["Movie"], // Make sure this matches your association setup
+      include: ["Movies"], // Make sure this matches your association setup
     });
 
     console.log("bookmarks....", bookmarks);
