@@ -214,27 +214,6 @@ export const getBookmarks = async (req, res) => {
   }
 };
 
-export const fetchUser = async (req, res) => {
-  try {
-    if (!req.user || !req.user.id) {
-      return res.status(401).json({ message: "No user information found" });
-    }
-    const userId = req.user.id; // Access user ID from req.user
-    // Fetch user details from the database
-    const user = await User.findOne({
-      where: { id: userId },
-      include: [{ model: Movie, through: { model: BookMark, attributes: [] } }],
-    });
-    if (!user) {
-      return res.status(404).json({ message: "user not found" });
-    }
-    return res.status(200).json({ ...user.toJSON(), bookmarks: user.Movies });
-  } catch (error) {
-    console.error("Error fetching user:", error);
-    res.status(500).json({ message: "Server error" });
-  }
-};
-
 // Function to bookmark a movie for a user
 export const bookmarkMovie = async (req, res) => {
   try {
@@ -296,5 +275,26 @@ export const deleteBookmarkedMovie = async (req, res) => {
   } catch (error) {
     console.error("Error deleting bookmark", error);
     return res.status(500).json({ error: "Failed to remove bookmark" });
+  }
+};
+
+export const fetchUser = async (req, res) => {
+  try {
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ message: "No user information found" });
+    }
+    const userId = req.user.id; // Access user ID from req.user
+    // Fetch user details from the database
+    const user = await User.findOne({
+      where: { id: userId },
+      include: [{ model: Movie, through: { model: BookMark, attributes: [] } }],
+    });
+    if (!user) {
+      return res.status(404).json({ message: "user not found" });
+    }
+    return res.status(200).json({ ...user.toJSON(), bookmarks: user.Movies });
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    res.status(500).json({ message: "Server error" });
   }
 };
