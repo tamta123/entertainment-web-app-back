@@ -201,7 +201,13 @@ export const getBookmarks = async (req, res) => {
     const userId = req.user.id;
     const userWithBookmarks = await User.findOne({
       where: { id: userId },
-      include: [{ model: Movie, through: { model: BookMark, attributes: [] } }],
+      include: [
+        {
+          model: Movie,
+          through: { model: BookMark, attributes: [] },
+          as: "bookmarkedMovies",
+        },
+      ],
     });
     if (!userWithBookmarks) {
       return res.status(400).json({ error: "User not found" });
