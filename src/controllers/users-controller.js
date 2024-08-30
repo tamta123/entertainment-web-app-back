@@ -293,7 +293,13 @@ export const fetchUser = async (req, res) => {
     // Fetch user details from the database
     const user = await User.findOne({
       where: { id: userId },
-      include: [{ model: Movie, through: { model: BookMark, attributes: [] } }],
+      include: [
+        {
+          model: Movie,
+          as: "bookmarkedMovies",
+          through: { model: BookMark, attributes: [] },
+        },
+      ],
     });
     if (!user) {
       return res.status(404).json({ message: "user not found" });
